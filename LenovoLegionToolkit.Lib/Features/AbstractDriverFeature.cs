@@ -26,7 +26,7 @@ public abstract class AbstractDriverFeature<T>(
     protected readonly Func<SafeFileHandle> DriverHandle = driverHandleHandle;
     protected readonly bool UseQueue = useDriverQueue;
 
-    protected T LastState;
+    public T LastState;
     private CancellationTokenSource? _lastSetCts;
 
     public virtual async Task<bool> IsSupportedAsync()
@@ -130,7 +130,7 @@ public abstract class AbstractDriverFeature<T>(
         }
     }
 
-    private async Task VerifyStateSetAsync(T state, CancellationToken ct)
+    protected virtual async Task VerifyStateSetAsync(T state, CancellationToken ct)
     {
         var retries = 0;
         while (retries < 10)
