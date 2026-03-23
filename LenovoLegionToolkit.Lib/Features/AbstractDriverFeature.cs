@@ -95,24 +95,24 @@ public abstract class AbstractDriverFeature<T>(
 
     protected async Task<uint> SendCodeAsync(SafeFileHandle handle, uint controlCode, uint inBuffer, bool bypassQueue = false)
     {
-        Task<uint> CoreAction() => Task.Run(() =>
+        Task<uint> CoreAction(CancellationToken ct) => Task.Run(() =>
         {
             if (PInvokeExtensions.DeviceIoControl(handle, controlCode, inBuffer, out uint outBuffer))
                 return outBuffer;
 
             var error = Marshal.GetLastWin32Error();
             throw new InvalidOperationException($"DeviceIoControl failed, error: {error}");
-        });
+        }, ct);
+
+        using var cts = new CancellationTokenSource(TimeSpan.FromMilliseconds(200));
 
         if (!UseQueue || bypassQueue)
-        {
-            return await CoreAction().ConfigureAwait(false);
-        }
+            return await CoreAction(cts.Token).ConfigureAwait(false);
 
         await GlobalDriverLock.Queue.WaitAsync().ConfigureAwait(false);
         try
         {
-            return await CoreAction().ConfigureAwait(false);
+            return await CoreAction(cts.Token).ConfigureAwait(false);
         }
         finally
         {
