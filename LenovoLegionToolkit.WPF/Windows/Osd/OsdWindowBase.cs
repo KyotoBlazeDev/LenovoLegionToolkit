@@ -563,20 +563,20 @@ public abstract class OsdWindowBase : Window
             const string dash = "-";
 
             fpsText = fpsVal.ToString();
-            fpsBrush = (fpsVal < _OsdSettings.Store.FpsThresholdCritical) ? _criticalBrush : Brushes.White;
+            fpsBrush = (fpsVal < _OsdSettings.Store.FpsThresholdCritical) ? _criticalBrush : _valueBrush;
 
             lowText = (lowVal > 0) ? lowVal.ToString() : dash;
-            lowBrush = (lowVal > 0 && (fpsVal - lowVal) >= _OsdSettings.Store.LowFpsDeltaThreshold) ? _criticalBrush : Brushes.White;
+            lowBrush = (lowVal > 0 && (fpsVal - lowVal) >= _OsdSettings.Store.LowFpsDeltaThreshold) ? _criticalBrush : _valueBrush;
 
             if (ftVal > 0.1)
             {
                 ftText = $"{ftVal,5:F1}ms";
-                ftBrush = (ftVal > MAX_FRAME_TIME_MS) ? _criticalBrush : Brushes.White;
+                ftBrush = (ftVal > MAX_FRAME_TIME_MS) ? _criticalBrush : _valueBrush;
             }
             else
             {
                 ftText = dash;
-                ftBrush = Brushes.White;
+                ftBrush = _valueBrush;
             }
         }
         else
@@ -584,9 +584,9 @@ public abstract class OsdWindowBase : Window
             if (currentTick - _lastValidFpsTick > FRAMETIME_TIMEOUT_TICKS)
             {
                 const string dash = "-";
-                fpsText = dash; fpsBrush = Brushes.White;
-                lowText = dash; lowBrush = Brushes.White;
-                ftText = dash; ftBrush = Brushes.White;
+                fpsText = dash; fpsBrush = _valueBrush;
+                lowText = dash; lowBrush = _valueBrush;
+                ftText = dash; ftBrush = _valueBrush;
                 _lastFpsUiUpdateTick = currentTick;
             }
             else
