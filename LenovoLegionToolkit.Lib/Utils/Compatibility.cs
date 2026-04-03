@@ -137,7 +137,8 @@ public static partial class Compatibility
         ("Lenovo Slim", LegionSeries.Lenovo_Slim),
         ("ThinkBook", LegionSeries.ThinkBook),
         ("Legion", LegionSeries.Legion_Legacy),
-        ("Motorola", LegionSeries.Motorola)
+        ("Motorola", LegionSeries.Motorola),
+        ("Motobook", LegionSeries.Motorola)
     ];
 
     private static MachineInformation? _machineInformation;
