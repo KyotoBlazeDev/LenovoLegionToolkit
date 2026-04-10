@@ -5,5 +5,5 @@ namespace LenovoLegionToolkit.WPF.Extensions;
 
 public static class UriExtensions
 {
-    public static void Open(this Uri uri) => Process.Start("explorer.exe", uri.AbsoluteUri);
+    public static void Open(this Uri uri) => Process.Start("explorer.exe", $"\"{uri.AbsoluteUri}\"");
 }
