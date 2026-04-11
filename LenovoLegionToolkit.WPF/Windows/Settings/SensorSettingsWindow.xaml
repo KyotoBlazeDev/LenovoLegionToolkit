@@ -10,9 +10,9 @@
     xmlns:wpfui="http://schemas.lepo.co/wpfui/2022/xaml"
     Title="{x:Static resources:Resource.SettingsPage_SensorSettings_Title}"
     Width="500"
-    Height="460"
+    Height="540"
     MinWidth="500"
-    MinHeight="460"
+    MinHeight="540"
     FlowDirection="{x:Static utils:LocalizationHelper.Direction}"
     ResizeMode="CanMinimize"
     ShowInTaskbar="False"
@@ -88,6 +88,16 @@
                     <ComboBox x:Name="_memoryDisplayModeSelector" MinWidth="140">
                         <ComboBoxItem Content="{x:Static resources:Resource.SensorSettingsPage_Percentage_Title}" />
                         <ComboBoxItem Content="{x:Static resources:Resource.SensorSettingsPage_Used_Memory_GB_Title}" />
+                    </ComboBox>
+                </custom:CardControl>
+
+                <custom:CardControl Margin="0,0,0,8">
+                    <custom:CardControl.Header>
+                        <controls:CardHeaderControl Title="{x:Static resources:Resource.SettingsPage_Temperature_Title}" Subtitle="{x:Static resources:Resource.SettingsPage_Temperature_Message}" />
+                    </custom:CardControl.Header>
+                    <ComboBox x:Name="_temperatureUnitSelector" MinWidth="140">
+                        <ComboBoxItem Content="{x:Static resources:Resource.Celsius}" />
+                        <ComboBoxItem Content="{x:Static resources:Resource.Fahrenheit}" />
                     </ComboBox>
                 </custom:CardControl>
             </StackPanel>

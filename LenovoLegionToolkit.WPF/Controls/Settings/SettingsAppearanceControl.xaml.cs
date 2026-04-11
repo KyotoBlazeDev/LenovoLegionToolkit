@@ -53,12 +53,6 @@ public partial class SettingsAppearanceControl
             _langCardControl.Visibility = Visibility.Collapsed;
         }
 
-        _temperatureComboBox.SetItems(Enum.GetValues<TemperatureUnit>(), _settings.Store.TemperatureUnit, t => t switch
-        {
-            TemperatureUnit.C => Resource.Celsius,
-            TemperatureUnit.F => Resource.Fahrenheit,
-            _ => new ArgumentOutOfRangeException(nameof(t))
-        });
         _themeComboBox.SetItems(Enum.GetValues<Theme>(), _settings.Store.Theme, t => t.GetDisplayName());
 
         UpdateAccentColorPicker();
@@ -66,7 +60,6 @@ public partial class SettingsAppearanceControl
 
         _backgroundImageOpacitySlider.Value = _settings.Store.Opacity;
 
-        _temperatureComboBox.Visibility = Visibility.Visible;
         _themeComboBox.Visibility = Visibility.Visible;
         _selectBackgroundImageButton.Visibility = Visibility.Visible;
         _clearBackgroundImageButton.Visibility = Visibility.Visible;
@@ -105,18 +98,6 @@ public partial class SettingsAppearanceControl
         LocalizationHelper.SetLanguageAsync(cultureInfo).ContinueWith(_ =>
             Dispatcher.Invoke(() => App.Current.RestartMainWindow()),
             TaskScheduler.Default);
-    }
-
-    private void TemperatureComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-        if (_isRefreshing)
-            return;
-
-        if (!_temperatureComboBox.TryGetSelectedItem(out TemperatureUnit temperatureUnit))
-            return;
-
-        _settings.Store.TemperatureUnit = temperatureUnit;
-        _settings.SynchronizeStore();
     }
 
     private void ThemeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

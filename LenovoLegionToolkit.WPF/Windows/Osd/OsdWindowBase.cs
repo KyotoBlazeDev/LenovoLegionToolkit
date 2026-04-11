@@ -62,6 +62,7 @@ public abstract class OsdWindowBase : Window
     protected readonly SensorsGroupController _sensorsGroupControllers = IoCContainer.Resolve<SensorsGroupController>();
     protected readonly FpsSensorController _fpsController = IoCContainer.Resolve<FpsSensorController>();
     protected readonly HardwareSensorSettings _hardwareSensorSettings = IoCContainer.Resolve<HardwareSensorSettings>();
+    protected readonly ApplicationSettings _applicationSettings = IoCContainer.Resolve<ApplicationSettings>();
 
     #endregion
 
@@ -487,6 +488,34 @@ public abstract class OsdWindowBase : Window
     protected string GetMemoryDisplayText(SensorSnapshot data) => GetMemoryDisplayText(data.MemUsage, data.MemUsed, data.MemTotal);
 
     protected string GetGpuVramDisplayText(SensorSnapshot data) => GetMemoryDisplayText(data.GpuVramUsage, data.GpuVramUsed, data.GpuVramTotal);
+
+    /// <summary>Returns a formatted temperature string, converting to °F when the application setting is configured.</summary>
+    protected string GetTemperatureFormat(double rawCelsius)
+    {
+        if (_applicationSettings.Store.TemperatureUnit == TemperatureUnit.F)
+        {
+            if (rawCelsius < 0) return "-";
+            var fahrenheit = rawCelsius * 9.0 / 5.0 + 32.0;
+            return $"{fahrenheit:F0}{Resource.Fahrenheit}";
+        }
+
+        return rawCelsius < 0 ? "-" : $"{rawCelsius:F0}{Resource.Celsius}";
+    }
+
+    protected void UpdateTemperatureTextBlock(TextBlock tb, double rawCelsius,
+        double warningThreshold = double.MaxValue, double criticalThreshold = double.MaxValue)
+    {
+        if (tb.Visibility != Visibility.Visible) return;
+
+        var text = GetTemperatureFormat(rawCelsius);
+        var foreground = _valueBrush;
+
+        if (warningThreshold != double.MaxValue && rawCelsius >= 0)
+            foreground = SeverityBrush(rawCelsius, warningThreshold, criticalThreshold);
+
+        SetTextIfChanged(tb, text);
+        SetForegroundIfChanged(tb, foreground);
+    }
 
     protected static void SetTextIfChanged(TextBlock tb, string text)
     {

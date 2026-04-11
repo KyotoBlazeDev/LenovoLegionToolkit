@@ -190,25 +190,25 @@ public partial class OsdPanelWindow : OsdWindowBase
         UpdateTextBlock(_cpuPFrequency, data.CpuPClock, $"{{0:F0}} {Resource.MHz}");
         UpdateTextBlock(_cpuEFrequency, data.CpuEClock, $"{{0:F0}} {Resource.MHz}");
         UpdateTextBlock(_cpuUsage, data.CpuUsage, $"{{0:F0}}{Resource.Percent}", store.UsageThresholdWarning, store.UsageThresholdCritical);
-        UpdateTextBlock(_cpuTemperature, data.CpuTemp, $"{{0:F0}}{Resource.Celsius}", store.TempThresholdWarning, store.TempThresholdCritical);
+        UpdateTemperatureTextBlock(_cpuTemperature, data.CpuTemp, store.TempThresholdWarning, store.TempThresholdCritical);
         UpdateTextBlock(_cpuPower, data.CpuPower, $"{{0:F1}} {Resource.Watt}");
         UpdateTextBlock(_cpuFanSpeed, data.CpuFanSpeed);
 
         UpdateTextBlock(_gpuFrequency, data.GpuFrequency, $"{{0}} {Resource.MHz}");
         UpdateTextBlock(_gpuUsage, data.GpuUsage, $"{{0:F0}}{Resource.Percent}", store.UsageThresholdWarning, store.UsageThresholdCritical);
-        UpdateTextBlock(_gpuTemperature, data.GpuTemp, $"{{0:F0}}{Resource.Celsius}", store.TempThresholdWarning, store.TempThresholdCritical);
+        UpdateTemperatureTextBlock(_gpuTemperature, data.GpuTemp, store.TempThresholdWarning, store.TempThresholdCritical);
         UpdateTextBlock(_gpuVramUsage, data.GpuVramUsage, GetGpuVramDisplayText(data), store.UsageThresholdWarning, store.UsageThresholdCritical);
-        UpdateTextBlock(_gpuVramTemperature, data.GpuVramTemp, $"{{0:F0}}{Resource.Celsius}", store.TempThresholdWarning, store.TempThresholdCritical);
+        UpdateTemperatureTextBlock(_gpuVramTemperature, data.GpuVramTemp, store.TempThresholdWarning, store.TempThresholdCritical);
         UpdateTextBlock(_gpuPower, data.GpuPower, $"{{0:F1}} {Resource.Watt}");
         UpdateTextBlock(_gpuFanSpeed, data.GpuFanSpeed);
 
         UpdateTextBlock(_memUsage, data.MemUsage, GetMemoryDisplayText(data), store.UsageThresholdWarning, store.UsageThresholdCritical);
-        UpdateTextBlock(_memTemperature, data.MemTemp, $"{{0:F0}}{Resource.Celsius}", store.TempThresholdWarning, store.TempThresholdCritical);
+        UpdateTemperatureTextBlock(_memTemperature, data.MemTemp, store.TempThresholdWarning, store.TempThresholdCritical);
 
-        UpdateTextBlock(_pchTemperature, data.PchTemp, $"{{0:F0}}{Resource.Celsius}", store.TempThresholdWarning, store.TempThresholdCritical);
+        UpdateTemperatureTextBlock(_pchTemperature, data.PchTemp, store.TempThresholdWarning, store.TempThresholdCritical);
         UpdateTextBlock(_pchFanSpeed, data.PchFanSpeed);
 
-        UpdateTextBlock(_disk0Temperature, data.Disk1Temp, $"{{0:F0}}{Resource.Celsius}", store.TempThresholdWarning, store.TempThresholdCritical);
-        UpdateTextBlock(_disk1Temperature, data.Disk2Temp, $"{{0:F0}}{Resource.Celsius}", store.TempThresholdWarning, store.TempThresholdCritical);
+        UpdateTemperatureTextBlock(_disk0Temperature, data.Disk1Temp, store.TempThresholdWarning, store.TempThresholdCritical);
+        UpdateTemperatureTextBlock(_disk1Temperature, data.Disk2Temp, store.TempThresholdWarning, store.TempThresholdCritical);
     }
 }

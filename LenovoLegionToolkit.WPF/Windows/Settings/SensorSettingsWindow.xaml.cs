@@ -1,5 +1,6 @@
 using System.Windows;
 using LenovoLegionToolkit.Lib;
+using LenovoLegionToolkit.Lib.Settings;
 using LenovoLegionToolkit.Lib.System;
 using LenovoLegionToolkit.WPF.Settings;
 using LenovoLegionToolkit.WPF.Utils;
@@ -9,6 +10,7 @@ namespace LenovoLegionToolkit.WPF.Windows.Settings;
 public partial class SensorSettingsWindow
 {
     private readonly HardwareSensorSettings _sensorsSettings = IoCContainer.Resolve<HardwareSensorSettings>();
+    private readonly ApplicationSettings _appSettings = IoCContainer.Resolve<ApplicationSettings>();
 
     public SensorSettingsWindow()
     {
@@ -26,6 +28,8 @@ public partial class SensorSettingsWindow
         {
             _gpuSelectionCard.Visibility = Visibility.Collapsed;
         }
+
+        _temperatureUnitSelector.SelectedIndex = _appSettings.Store.TemperatureUnit == TemperatureUnit.F ? 1 : 0;
     }
 
     private void DefaultButton_Click(object sender, RoutedEventArgs e)
@@ -33,10 +37,13 @@ public partial class SensorSettingsWindow
         _sensorsSettings.Store.ShowCpuAverageFrequency = false;
         _sensorsSettings.Store.SelectedGpuIsIgpu = false;
         _sensorsSettings.Store.DisplayMemoryInGigabytes = false;
+        _appSettings.Store.TemperatureUnit = TemperatureUnit.C;
         _cpuFrequencySelector.SelectedIndex = 0;
         _gpuSelector.SelectedIndex = 0;
         _memoryDisplayModeSelector.SelectedIndex = 0;
+        _temperatureUnitSelector.SelectedIndex = 0;
         _sensorsSettings.SynchronizeStore();
+        _appSettings.SynchronizeStore();
 
         Close();
     }
@@ -55,8 +62,10 @@ public partial class SensorSettingsWindow
         }
 
         _sensorsSettings.Store.DisplayMemoryInGigabytes = _memoryDisplayModeSelector.SelectedIndex == 1;
+        _appSettings.Store.TemperatureUnit = _temperatureUnitSelector.SelectedIndex == 1 ? TemperatureUnit.F : TemperatureUnit.C;
 
         _sensorsSettings.SynchronizeStore();
+        _appSettings.SynchronizeStore();
         Close();
     }
 }
