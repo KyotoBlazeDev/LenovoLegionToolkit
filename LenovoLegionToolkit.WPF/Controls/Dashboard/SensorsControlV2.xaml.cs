@@ -30,7 +30,6 @@ public partial class SensorsControlV2
     private readonly SensorsControlSettings _sensorsControlSettings = IoCContainer.Resolve<SensorsControlSettings>();
     private readonly HardwareSensorSettings _hardwareSensorSettings = IoCContainer.Resolve<HardwareSensorSettings>();
     private readonly ApplicationSettings _applicationSettings = IoCContainer.Resolve<ApplicationSettings>();
-    private readonly DashboardSettings _dashboardSettings = IoCContainer.Resolve<DashboardSettings>();
     private readonly Lock _updateLock = new();
     private readonly Task<string> _cpuNameTask;
     private Task<string>? _gpuNameTask;
@@ -127,15 +126,15 @@ public partial class SensorsControlV2
         {
             var item = new MenuItem
             {
-                SymbolIcon = _dashboardSettings.Store.SensorsRefreshIntervalSeconds == interval
+                SymbolIcon = _sensorsControlSettings.Store.SensorsRefreshIntervalSeconds == interval
                     ? SymbolRegular.Checkmark24
                     : SymbolRegular.Empty,
                 Header = TimeSpan.FromSeconds(interval).Humanize(culture: Resource.Culture)
             };
             item.Click += (_, _) =>
             {
-                _dashboardSettings.Store.SensorsRefreshIntervalSeconds = interval;
-                _dashboardSettings.SynchronizeStore();
+                _sensorsControlSettings.Store.SensorsRefreshIntervalSeconds = interval;
+                _sensorsControlSettings.SynchronizeStore();
                 InitializeContextMenu();
                 if (IsVisible)
                 {
@@ -172,7 +171,7 @@ public partial class SensorsControlV2
 
             UpdateControlsVisibility();
             _sensorsGroupControllers.SensorsUpdated += OnSensorsUpdated;
-            _sensorsGroupControllers.Start(this, TimeSpan.FromSeconds(_dashboardSettings.Store.SensorsRefreshIntervalSeconds));
+            _sensorsGroupControllers.Start(this, TimeSpan.FromSeconds(_sensorsControlSettings.Store.SensorsRefreshIntervalSeconds));
         }
         else
         {
