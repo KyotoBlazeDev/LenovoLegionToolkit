@@ -1707,7 +1707,7 @@
     <value>位置</value>
   </data>
   <data name="NotificationsSettingsWindow_NumLock" xml:space="preserve">
-    <value>小键盘数字锁</value>
+    <value>数字锁定</value>
   </data>
   <data name="NotificationsSettingsWindow_PowerMode" xml:space="preserve">
     <value>性能模式</value>
