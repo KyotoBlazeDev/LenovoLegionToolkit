@@ -95,6 +95,11 @@ public partial class ITSModeFeature : IFeature<ITSMode>
 
     public async Task SetStateAsync(ITSMode state)
     {
+        if (state == ITSMode.None)
+        {
+            Log.Instance.Trace($"Can't set ITS mode to None, operation aborted.");
+        }
+
         Log.Instance.Trace($"Setting ITS mode to: {state}");
 
         try
