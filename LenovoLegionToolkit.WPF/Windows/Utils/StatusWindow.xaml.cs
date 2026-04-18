@@ -212,14 +212,19 @@ public partial class StatusWindow
     {
         _machineInfo ??= await Compatibility.GetMachineInformationAsync().ConfigureAwait(false);
 
-        var tasks = new List<Task>();
+        var isSpecialModel = (int?)_machineInfo?.LegionSeries > 5;
 
-        PowerModeState? state = null; ITSMode? mode = null; string? godModePresetName = null;
-        GPUStatus? gpuStatus = null; BatteryInformation? batteryInfo = null; BatteryState? batteryState = null;
-        bool hasUpdate = false; SensorsData? sensorsData = null;
-        double cpuPower = -1; double gpuPower = -1;
-        double cpuClock = -1; double cpuTemp = -1;
-        double gpuClock = -1; double gpuTemp = -1;
+        PowerModeState? state = null;
+        ITSMode? mode = null;
+        string? godModePresetName = null;
+        GPUStatus? gpuStatus = null;
+        BatteryInformation? batteryInfo = null;
+        BatteryState? batteryState = null;
+        bool hasUpdate = false;
+        SensorsData? sensorsData = null;
+        double cpuPower = -1, gpuPower = -1, cpuClock = -1, cpuTemp = -1, gpuClock = -1, gpuTemp = -1;
+
+        var tasks = new List<Task>();
 
         tasks.Add(Task.Run(async () => {
             try
@@ -244,30 +249,31 @@ public partial class StatusWindow
 
         await Task.WhenAll(tasks).ConfigureAwait(false);
 
-        if (!_settings.Store.EnableHardwareSensors) return new(state, mode, godModePresetName, gpuStatus, batteryInfo, batteryState, hasUpdate, sensorsData, cpuPower, gpuPower);
-
-        try
+        if (isSpecialModel || _settings.Store.EnableHardwareSensors)
         {
-            if (await _sensorsController.IsSupportedAsync().WaitAsync(token))
+            try
             {
-                var controller = await _sensorsController.GetControllerAsync().WaitAsync(token);
-                _cachedControllerType = controller?.GetType();
+                if (!isSpecialModel && await _sensorsController.IsSupportedAsync().WaitAsync(token))
+                {
+                    var controller = await _sensorsController.GetControllerAsync().WaitAsync(token);
+                    _cachedControllerType = controller?.GetType();
 
-                sensorsData = await _sensorsController.GetDataAsync().WaitAsync(token);
-            }
+                    sensorsData = await _sensorsController.GetDataAsync().WaitAsync(token);
+                }
 
-            if (_sensorsGroupController.IsLibreHardwareMonitorInitialized())
-            {
-                var gs = snapshot ?? _sensorsGroupController.Snapshot;
-                cpuPower = gs.CpuPower;
-                gpuPower = gs.GpuPower;
-                cpuClock = _hardwareSensorSettings.Store.ShowCpuAverageFrequency ? gs.CpuAvgClock : gs.CpuMaxClock;
-                cpuTemp = gs.CpuTemp;
-                gpuClock = gs.GpuClock;
-                gpuTemp = gs.GpuTemp;
+                if (_sensorsGroupController.IsLibreHardwareMonitorInitialized())
+                {
+                    var gs = snapshot ?? _sensorsGroupController.Snapshot;
+                    cpuPower = gs.CpuPower;
+                    gpuPower = gs.GpuPower;
+                    cpuClock = _hardwareSensorSettings.Store.ShowCpuAverageFrequency ? gs.CpuAvgClock : gs.CpuMaxClock;
+                    cpuTemp = gs.CpuTemp;
+                    gpuClock = gs.GpuClock;
+                    gpuTemp = gs.GpuTemp;
+                }
             }
+            catch { /* Ignore */ }
         }
-        catch { /* Ignore */ }
 
         return new(state, mode, godModePresetName, gpuStatus, batteryInfo, batteryState, hasUpdate, sensorsData, cpuPower, gpuPower, cpuClock, cpuTemp, gpuClock, gpuTemp);
     }
