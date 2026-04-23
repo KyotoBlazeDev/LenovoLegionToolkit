@@ -5,9 +5,11 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using LenovoLegionToolkit.Lib;
+using LenovoLegionToolkit.Lib.Station.Core;
+using LenovoLegionToolkit.Lib.Station.Logging;
 using LenovoLegionToolkit.Lib.Utils;
 
-namespace LenovoLegionToolkit.WPF.Extensions;
+namespace LenovoLegionToolkit.WPF.Station.Core;
 
 public sealed class ExtensionManager
 {

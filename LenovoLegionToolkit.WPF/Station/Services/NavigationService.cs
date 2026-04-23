@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using LenovoLegionToolkit.Lib;
+using LenovoLegionToolkit.Lib.Station.Services;
 using LenovoLegionToolkit.Lib.Utils;
 
-namespace LenovoLegionToolkit.WPF.Extensions;
+namespace LenovoLegionToolkit.WPF.Station.Services;
 
 public sealed class NavigationService : INavigationService
 {

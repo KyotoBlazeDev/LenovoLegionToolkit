@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -22,7 +22,7 @@ using LenovoLegionToolkit.Lib.Messaging.Messages;
 using LenovoLegionToolkit.Lib.Settings;
 using LenovoLegionToolkit.Lib.SoftwareDisabler;
 using LenovoLegionToolkit.Lib.Utils;
-using LenovoLegionToolkit.Lib.Utils;
+using LenovoLegionToolkit.Lib.Station.Services;
 using LenovoLegionToolkit.WPF.Controls.Custom;
 using CustomCardControl = LenovoLegionToolkit.WPF.Controls.Custom.CardControl;
 using CustomNavigationItem = LenovoLegionToolkit.WPF.Controls.Custom.NavigationItem;

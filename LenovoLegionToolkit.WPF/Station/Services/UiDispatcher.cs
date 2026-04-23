@@ -1,9 +1,10 @@
 using System;
 using System.Threading.Tasks;
 using System.Windows;
+using LenovoLegionToolkit.Lib.Station.Services;
 using LenovoLegionToolkit.Lib.Utils;
 
-namespace LenovoLegionToolkit.WPF.Extensions;
+namespace LenovoLegionToolkit.WPF.Station.Services;
 
 public sealed class UiDispatcher : IUiDispatcher
 {

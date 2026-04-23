@@ -1,8 +1,9 @@
 using System;
 using LenovoLegionToolkit.Lib;
+using LenovoLegionToolkit.Lib.Station.Logging;
 using LenovoLegionToolkit.Lib.Utils;
 
-namespace LenovoLegionToolkit.WPF.Extensions;
+namespace LenovoLegionToolkit.WPF.Station.Logging;
 
 public sealed class ExtensionLogger : IExtensionLogger
 {

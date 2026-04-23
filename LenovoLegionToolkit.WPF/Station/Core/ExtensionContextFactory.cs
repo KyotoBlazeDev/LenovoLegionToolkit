@@ -1,6 +1,8 @@
-using LenovoLegionToolkit.Lib.Utils;
+using LenovoLegionToolkit.Lib.Station.Core;
+using LenovoLegionToolkit.Lib.Station.Logging;
+using LenovoLegionToolkit.Lib.Station.Services;
 
-namespace LenovoLegionToolkit.WPF.Extensions;
+namespace LenovoLegionToolkit.WPF.Station.Core;
 
 public sealed class ExtensionContextFactory
 {
