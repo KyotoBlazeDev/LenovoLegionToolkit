@@ -66,11 +66,9 @@ public partial class SettingsAppearanceControl
         _backgroundImageOpacitySlider.Visibility = Visibility.Visible;
         _hardwareAccelerationToggle.IsChecked = _settings.Store.EnableHardwareAcceleration;
 
-        var array = Enum.GetValues<WindowBackdropType>();
-        if (Environment.OSVersion.Version.Build < 22621)
-        {
-            array = array.Where(t => t != WindowBackdropType.Acrylic).ToArray();
-        }
+        var array = Enum.GetValues<WindowBackdropType>()
+            .Where(t => Environment.OSVersion.Version.Build >= 22621 || t != WindowBackdropType.Acrylic)
+            .ToArray();
 
         _backdropTypeComboBox.SetItems(array, _settings.Store.BackdropType, t => t.GetDisplayName());
 
