@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -1361,7 +1361,7 @@
     <value>缺少 PowerBattery.dll ，请手动放置来使用 ITSMode 功能</value>
   </data>
   <data name="ITSModeControl_Dialog_Title" xml:space="preserve">
-    <value>缺少组件</value>
+    <value>Missing Component</value>
   </data>
   <data name="ITSModeControl_Message" xml:space="preserve">
     <value>更改性能模式</value>
@@ -2822,6 +2822,15 @@
   </data>
   <data name="SettingsPage_PowerModeMapping_Title" xml:space="preserve">
     <value>电源模式同步</value>
+  </data>
+  <data name="SettingsPage_ResetSettings_Confirm" xml:space="preserve">
+    <value>Are you sure you want to reset all settings to defaults? This action cannot be undone and the application will restart.</value>
+  </data>
+  <data name="SettingsPage_ResetSettings_Message" xml:space="preserve">
+    <value>Reset all application settings to their defaults.</value>
+  </data>
+  <data name="SettingsPage_ResetSettings_Title" xml:space="preserve">
+    <value>Reset Settings</value>
   </data>
   <data name="SettingsPage_RestartRequired_Message" xml:space="preserve">
     <value>重启以查看改动</value>
