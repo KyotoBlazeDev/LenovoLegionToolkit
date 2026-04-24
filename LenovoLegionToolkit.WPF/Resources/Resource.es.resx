@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -1354,7 +1354,7 @@ Si la dGPU no responde del todo, reinicie su portátil.</value>
     <value>Falta el archivo PowerBattery.dll. Por favor, colóquelo manualmente para utilizar la función ITSMode.</value>
   </data>
   <data name="ITSModeControl_Dialog_Title" xml:space="preserve">
-    <value>Componente faltante</value>
+    <value>Missing Component</value>
   </data>
   <data name="ITSModeControl_Message" xml:space="preserve">
     <value>Cambiar el modo de energía del IdeaPad</value>
@@ -2814,6 +2814,15 @@ Se recomienda reiniciar después de cambiar esta opción.</value>
   </data>
   <data name="SettingsPage_PowerModeMapping_Title" xml:space="preserve">
     <value>Sincronización del modo de alimentación</value>
+  </data>
+  <data name="SettingsPage_ResetSettings_Confirm" xml:space="preserve">
+    <value>Are you sure you want to reset all settings to defaults? This action cannot be undone and the application will restart.</value>
+  </data>
+  <data name="SettingsPage_ResetSettings_Message" xml:space="preserve">
+    <value>Reset all application settings to their defaults.</value>
+  </data>
+  <data name="SettingsPage_ResetSettings_Title" xml:space="preserve">
+    <value>Reset Settings</value>
   </data>
   <data name="SettingsPage_RestartRequired_Message" xml:space="preserve">
     <value>Reinicie para aplicar los cambios.</value>
