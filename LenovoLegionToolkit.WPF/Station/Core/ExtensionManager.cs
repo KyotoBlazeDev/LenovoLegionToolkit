@@ -25,7 +25,7 @@ public sealed class ExtensionManager
 
     public IReadOnlyCollection<IExtensionProvider> Providers => _providers.AsReadOnly();
 
-    public Task LoadAsync()
+    public void Load()
     {
         var pluginRoot = Path.Combine(Folders.AppData, "Plugins");
         _logger.Trace($"Starting extension discovery. BaseDirectory={Folders.AppData}");
@@ -34,7 +34,7 @@ public sealed class ExtensionManager
         if (!Directory.Exists(pluginRoot))
         {
             _logger.Trace($"Plugin directory not found: {pluginRoot}");
-            return Task.CompletedTask;
+            return;
         }
 
         var dlls = Directory.EnumerateFiles(pluginRoot, "*.dll", SearchOption.AllDirectories).ToArray();
@@ -47,10 +47,9 @@ public sealed class ExtensionManager
         }
 
         _logger.Trace($"Extension discovery completed. Loaded provider count: {_providers.Count}");
-        return Task.CompletedTask;
     }
 
-    public async Task StopAsync()
+    public void StopAsync()
     {
         _logger.Trace($"Stopping extension providers. Count={_providers.Count}");
 
@@ -67,8 +66,6 @@ public sealed class ExtensionManager
                 _logger.Error($"Failed to dispose provider {provider.GetType().FullName}", ex);
             }
         }
-
-        await Task.CompletedTask;
     }
 
     private void TryLoadAssemblyProviders(string assemblyPath)
@@ -117,7 +114,7 @@ public sealed class ExtensionManager
                 }
 
                 _logger.Trace($"Initializing provider: {providerType.FullName}");
-                provider.Initialize(_contextFactory.Create());
+                provider.Initialize(_contextFactory.Create(providerType.FullName ?? providerType.Name));
                 _providers.Add(provider);
                 _logger.Trace($"Loaded provider successfully: {providerType.FullName}. Total loaded providers: {_providers.Count}");
             }

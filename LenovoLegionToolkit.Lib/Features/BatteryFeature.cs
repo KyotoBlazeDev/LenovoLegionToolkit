@@ -18,12 +18,12 @@ public class BatteryFeature() : AbstractDriverFeature<BatteryState>(Drivers.GetE
 
     protected override Task<uint[]> ToInternalAsync(BatteryState state)
     {
-        var result = state switch
+        uint[] result = state switch
         {
-            BatteryState.Conservation => LastState == BatteryState.RapidCharge ? new uint[] { 0x8, 0x3 } : [0x3],
-            BatteryState.Normal => LastState == BatteryState.Conservation ? [0x5] : [0x8],
-            BatteryState.RapidCharge => LastState == BatteryState.Conservation ? [0x5, 0x7] : [0x7],
-            _ => throw new InvalidOperationException("Invalid state")
+            BatteryState.Conservation => new uint[] { 0x08, 0x03 },
+            BatteryState.Normal       => new uint[] { 0x05, 0x08 },
+            BatteryState.RapidCharge  => new uint[] { 0x05, 0x07 },
+            _                         => throw new InvalidOperationException("Invalid state")
         };
         return Task.FromResult(result);
     }
@@ -51,7 +51,7 @@ public class BatteryFeature() : AbstractDriverFeature<BatteryState>(Drivers.GetE
             Log.Instance.Trace($"Battery Mode mismatch, Actual: {actual}, Target: {state}");
         }
 
-        SetStateInRegistry(state);
+        SetStateInRegistry(actual);
     }
 
     public async Task EnsureCorrectBatteryModeIsSetAsync()

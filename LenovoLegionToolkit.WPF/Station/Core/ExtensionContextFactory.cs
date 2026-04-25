@@ -17,5 +17,5 @@ public sealed class ExtensionContextFactory
         _logger = logger;
     }
 
-    public IExtensionContext Create() => new ExtensionContext(_navigationService, _uiDispatcher, _logger);
+    public IExtensionContext Create(string pluginId) => new ExtensionContext(pluginId, _navigationService, _uiDispatcher, _logger);
 }

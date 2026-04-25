@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -186,10 +186,6 @@ public sealed class PowerStateListener : IListener<PowerStateListener.ChangedEve
                     if (powerAdapterStateChanged)
                     {
                         await HandleConnectedStatusChangeAsync().ConfigureAwait(false);
-                    }
-                    else
-                    {
-                        return;
                     }
 
                     break;

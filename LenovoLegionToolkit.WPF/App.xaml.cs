@@ -100,7 +100,7 @@ public partial class App
 
             await InitializeSettingsAndCompatibilityAsync();
             await InitializeHardwareAndFeaturesAsync();
-            await IoCContainer.Resolve<ExtensionManager>().LoadAsync();
+            IoCContainer.Resolve<ExtensionManager>().Load();
             var deferredInitTask = StartBackgroundServicesAsync();
             await InitializeUIAsync();
             await deferredInitTask;
@@ -361,30 +361,8 @@ public partial class App
         Environment.Exit(-1);
     }
 
-    private async void Application_Exit(object sender, ExitEventArgs e)
+    private void Application_Exit(object sender, ExitEventArgs e)
     {
-        try
-        {
-            var controller = IoCContainer.TryResolve<AmdOverclockingController>();
-
-
-            if (controller != null && controller.IsActive())
-            {
-                var cleanInfo = new ShutdownInfo
-                {
-                    Status = "Normal",
-                    AbnormalCount = 0
-                };
-
-                controller.SaveShutdownInfo(cleanInfo);
-            }
-
-        }
-        catch (Exception ex)
-        {
-            Log.Instance.Trace($"Application_Exit save status failed: {ex.Message}");
-        }
-
         _singleInstanceMutex?.Close();
     }
 
@@ -407,7 +385,7 @@ public partial class App
         await SafeExecuteAsync<HWiNFOIntegration>(c => c.StopAsync());
         await SafeExecuteAsync<IpcServer>(c => c.StopAsync());
         await SafeExecuteAsync<BatteryDischargeRateMonitorService>(c => c.StopAsync());
-        await SafeExecuteAsync<ExtensionManager>(c => c.StopAsync());
+        IoCContainer.TryResolve<ExtensionManager>()?.StopAsync();
 
         var feature = IoCContainer.Resolve<AmdOverclockingController>();
 

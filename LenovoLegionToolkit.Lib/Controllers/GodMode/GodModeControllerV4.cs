@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Management;
@@ -21,8 +21,6 @@ public class GodModeControllerV4(
 {
     private const uint CAPABILITY_ID_MASK = 0xFFFF00FF;
     private const int BIOS_OC_MODE_ENABLED = 3;
-    private const string FAN_TABLE_DATA_ERROR = "Bad fan table";
-    private const string APPLYING_STATE = "Applying state";
 
     public override Task<bool> NeedsVantageDisabledAsync() => Task.FromResult(true);
     public override Task<bool> NeedsLegionSpaceDisabledAsync() => Task.FromResult(true);
@@ -48,7 +46,7 @@ public class GodModeControllerV4(
             return;
         }
 
-        Log.Instance.Trace($"{APPLYING_STATE}");
+        Log.Instance.Trace($"Applying state");
 
         var (presetId, preset) = await GetActivePresetAsync().ConfigureAwait(false);
         var isOcEnabled = await IsBiosOcEnabledAsync().ConfigureAwait(false);
@@ -419,7 +417,7 @@ public class GodModeControllerV4(
 
         if (!IsValidFanTableData(fanTableData))
         {
-            Log.Instance.Trace($"{FAN_TABLE_DATA_ERROR}: {string.Join(", ", fanTableData)}");
+            Log.Instance.Trace($"Bad fan table: {string.Join(", ", fanTableData)}");
             return null;
         }
 
