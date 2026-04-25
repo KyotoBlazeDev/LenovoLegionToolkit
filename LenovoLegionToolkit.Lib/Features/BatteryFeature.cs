@@ -1,6 +1,5 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
-using LenovoLegionToolkit.Lib.Extensions;
 using LenovoLegionToolkit.Lib.System;
 using LenovoLegionToolkit.Lib.Utils;
 
@@ -31,97 +30,44 @@ public class BatteryFeature() : AbstractDriverFeature<BatteryState>(Drivers.GetE
 
     protected override Task<BatteryState> FromInternalAsync(uint state)
     {
-        if (TryNormalizeChargingMode(state, out var mode))
-            return Task.FromResult(MapChargingMode(mode, state));
+        // Storage - bit 0x20
+        if ((state & 0x20) != 0)
+            return Task.FromResult(BatteryState.Conservation);
 
-        var reversed = state.ReverseEndianness();
-        Log.Instance.Trace($"Unknown battery state, falling back to Normal. [raw={state}, rawHex=0x{state:X8}, rawBits={Convert.ToString(state, 2)}, reversedHex=0x{reversed:X8}, reversedBits={Convert.ToString(reversed, 2)}]");
+        // Express - bit 0x04
+        if ((state & 0x04) != 0)
+            return Task.FromResult(BatteryState.RapidCharge);
+
         return Task.FromResult(BatteryState.Normal);
     }
 
     public override async Task SetStateAsync(BatteryState state)
     {
         await base.SetStateAsync(state).ConfigureAwait(false);
+        var actual = await GetStateAsync().ConfigureAwait(false);
+
+        if (actual != state)
+        {
+            Log.Instance.Trace($"Battery Mode mismatch, Actual: {actual}, Target: {state}");
+        }
+
         SetStateInRegistry(state);
     }
 
     public async Task EnsureCorrectBatteryModeIsSetAsync()
     {
         var state = GetStateFromRegistry();
-
         if (!state.HasValue)
+        {
             return;
+        }
 
         if (await GetStateAsync().ConfigureAwait(false) == state.Value)
+        {
             return;
+        }
 
         await SetStateAsync(state.Value).ConfigureAwait(false);
-    }
-
-    private static bool TryNormalizeChargingMode(uint rawState, out int mode)
-    {
-        var rawMode = 0;
-
-        // From reverse
-        if ((rawState & 0x20) != 0)
-            rawMode |= 0x1;
-
-        if ((rawState & 0x04) != 0)
-            rawMode |= 0x2;
-
-        if (rawMode is >= 0 and <= 3 && rawMode != 0)
-        {
-            mode = rawMode;
-            return true;
-        }
-
-        // Legacy
-        var reversed = rawState.ReverseEndianness();
-        var legacyMode = 0;
-
-        if (reversed.GetNthBit(29))
-            legacyMode |= 0x1;
-
-        if (reversed.GetNthBit(17) && reversed.GetNthBit(26))
-            legacyMode |= 0x2;
-
-        if (legacyMode != 0)
-        {
-            mode = legacyMode;
-            return true;
-        }
-
-        // Legacy: charging-state bit set
-        if (reversed.GetNthBit(17))
-        {
-            mode = 0;
-            return true;
-        }
-
-        if (rawState == 0)
-        {
-            mode = 0;
-            return true;
-        }
-
-        mode = default;
-        return false;
-    }
-
-    private static BatteryState MapChargingMode(int mode, uint rawState)
-    {
-        if ((mode & 0x1) != 0)
-        {
-            if ((mode & 0x2) != 0)
-                Log.Instance.Trace($"Battery charging mode contains both conservation and rapid bits. Preferring Conservation. [mode={mode}, rawHex=0x{rawState:X8}]");
-
-            return BatteryState.Conservation;
-        }
-
-        if ((mode & 0x2) != 0)
-            return BatteryState.RapidCharge;
-
-        return BatteryState.Normal;
     }
 
     private static BatteryState? GetStateFromRegistry()

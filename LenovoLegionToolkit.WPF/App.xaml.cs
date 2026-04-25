@@ -32,7 +32,10 @@ using LenovoLegionToolkit.Lib.Settings;
 using LenovoLegionToolkit.Lib.SoftwareDisabler;
 using LenovoLegionToolkit.Lib.System;
 using LenovoLegionToolkit.Lib.Utils;
+using LenovoLegionToolkit.Lib.Station.Core;
 using LenovoLegionToolkit.WPF.CLI;
+using LenovoLegionToolkit.WPF.Station.Core;
+using LenovoLegionToolkit.WPF.Station.Services;
 using LenovoLegionToolkit.WPF.Extensions;
 using LenovoLegionToolkit.WPF.Resources;
 using LenovoLegionToolkit.WPF.Utils;
@@ -97,6 +100,7 @@ public partial class App
 
             await InitializeSettingsAndCompatibilityAsync();
             await InitializeHardwareAndFeaturesAsync();
+            await IoCContainer.Resolve<ExtensionManager>().LoadAsync();
             var deferredInitTask = StartBackgroundServicesAsync();
             await InitializeUIAsync();
             await deferredInitTask;
@@ -235,7 +239,6 @@ public partial class App
             SafeInitAsync(InitGpuOverclockControllerAsync, "GPU Overclock"),
             SafeInitAsync(InitLampArrayControllerAsync, "LampArray"),
             SafeInitAsync(InitHybridModeAsync, "Hybrid Mode"),
-            SafeInitAsync(InitFanManagerExtension, "Fan Manager"),
             SafeInitAsync(InitAutomationLocalization, "Automation Localization"),
             SafeInitAsync(InitAMDOverclocking, "AMD Overclocking"),
             // SafeInitAsync(InitSetPowerMode, "Set Power Mode"),
@@ -363,7 +366,7 @@ public partial class App
         try
         {
             var controller = IoCContainer.TryResolve<AmdOverclockingController>();
-            var fanManager = IoCContainer.TryResolve<FanCurveManager>();
+
 
             if (controller != null && controller.IsActive())
             {
@@ -376,10 +379,6 @@ public partial class App
                 controller.SaveShutdownInfo(cleanInfo);
             }
 
-            if (fanManager != null && await fanManager.IsSupportedAsync().ConfigureAwait(false))
-            {
-                await fanManager.SetRegisterAsync(false).ConfigureAwait(false);
-            }
         }
         catch (Exception ex)
         {
@@ -408,6 +407,7 @@ public partial class App
         await SafeExecuteAsync<HWiNFOIntegration>(c => c.StopAsync());
         await SafeExecuteAsync<IpcServer>(c => c.StopAsync());
         await SafeExecuteAsync<BatteryDischargeRateMonitorService>(c => c.StopAsync());
+        await SafeExecuteAsync<ExtensionManager>(c => c.StopAsync());
 
         var feature = IoCContainer.Resolve<AmdOverclockingController>();
 
@@ -420,12 +420,6 @@ public partial class App
             };
 
             feature.SaveShutdownInfo(cleanInfo);
-        }
-
-        var fanManager = IoCContainer.Resolve<FanCurveManager>();
-        if (fanManager != null && await fanManager.IsSupportedAsync().ConfigureAwait(false))
-        {
-            await fanManager.SetRegisterAsync(false).ConfigureAwait(false);
         }
 
         Dispatcher.Invoke(Shutdown);
@@ -1024,49 +1018,7 @@ public partial class App
         }
     }
 
-    private static async Task InitFanManagerExtension()
-    {
-        try
-        {
-            Log.Instance.Trace($"Resolving and initializing FanCurveManager...");
-            var fanManager = IoCContainer.Resolve<FanCurveManager>();
-
-            if (!await fanManager.IsSupportedAsync().ConfigureAwait(false))
-            {
-                Log.Instance.Trace($"Extension is not supported or missing.");
-                return;
-            }
-
-            await fanManager.InitializeAsync().ConfigureAwait(false);
-
-            var mi = await Compatibility.GetMachineInformationAsync().ConfigureAwait(false);
-            if (mi.LegionSeries <= LegionSeries.Legion_Legacy)
-            {
-                var powerMode = IoCContainer.Resolve<PowerModeFeature>();
-                if (await powerMode.GetStateAsync().ConfigureAwait(false) != PowerModeState.GodMode)
-                {
-                    return;
-                }
-            }
-
-            var fanSettings = IoCContainer.Resolve<FanCurveSettings>();
-
-            if (fanSettings.Store.Entries.Count == 0)
-            {
-                fanSettings.Save();
-            }
-
-            Log.Instance.Trace($"Applying {fanSettings.Store.Entries.Count} fan curves from settings...");
-            await fanManager.LoadAndApply(fanSettings.Store.Entries, fanSettings.Store.IsFullSpeed).ConfigureAwait(false);
-        }
-        catch (Exception ex)
-        {
-            Log.Instance.Trace($"Failed to apply profile on startup: {ex.Message}", ex);
-        }
-    }
-
     #endregion
-
     #region UI Helpers
 
     public void InitOsd()

@@ -48,7 +48,6 @@ public class IoCModule : Module
         builder.Register<UpdateSettings>();
         builder.Register<LampArraySettings>();
         builder.Register<ITSModeSettings>();
-        builder.Register<FanCurveSettings>().SingleInstance();
 
         builder.Register<AlwaysOnUSBFeature>();
         builder.Register<BatteryFeature>();
@@ -153,10 +152,5 @@ public class IoCModule : Module
         builder.Register<BatteryDischargeRateMonitorService>();
 
         builder.Register<AmdOverclockingController>();
-
-        builder.Register<FanCurveManager>(c => new FanCurveManager(
-            c.Resolve<SensorsGroupController>(),
-            c.Resolve<PowerModeListener>(),
-            c.Resolve<PowerModeFeature>())).SingleInstance();
     }
 }

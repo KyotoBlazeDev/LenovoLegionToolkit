@@ -1,0 +1,13 @@
+using LenovoLegionToolkit.Lib.Station.Logging;
+using LenovoLegionToolkit.Lib.Station.Services;
+
+namespace LenovoLegionToolkit.Lib.Station.Core;
+
+public interface IExtensionContext
+{
+    INavigationService Navigation { get; }
+    IUiDispatcher UiDispatcher { get; }
+    IExtensionLogger Logger { get; }
+
+    string GetPluginStoragePath(string pluginId);
+}
