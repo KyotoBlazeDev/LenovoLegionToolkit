@@ -28,7 +28,7 @@ public partial class SettingsBackupWindow
     {
         "sensor_dashboard.json", "dashboard.json", "hardware_sensors.json", 
         "automation.json", "macro.json", "settings.json", "balancemode.json", 
-        "godmode.json", "fan_curves.json", "gpu_oc.json", "integrations.json", 
+        "godmode.json", "gpu_oc.json", "integrations.json", 
         "itsmode_settings.json", "lamp_array.json", "package_downloader.json", 
         "update_settings.json", "sunrise_sunset.json", "spectrum_keyboard.json", 
         "rgb_keyboard.json", "osd.json", "args.txt", "lang"
