@@ -385,7 +385,7 @@ public partial class App
         await SafeExecuteAsync<HWiNFOIntegration>(c => c.StopAsync());
         await SafeExecuteAsync<IpcServer>(c => c.StopAsync());
         await SafeExecuteAsync<BatteryDischargeRateMonitorService>(c => c.StopAsync());
-        IoCContainer.TryResolve<ExtensionManager>()?.StopAsync();
+        await SafeExecuteAsync<ExtensionManager>(c => c.StopAsync());
 
         var feature = IoCContainer.Resolve<AmdOverclockingController>();
 

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
+using System.Threading.Tasks;
 using LenovoLegionToolkit.Lib.Station.Core;
 using LenovoLegionToolkit.Lib.Station.Logging;
 using LenovoLegionToolkit.Lib.Station.Services;
@@ -13,8 +14,7 @@ public sealed class ExtensionContext : IExtensionContext
     private static readonly string PluginsBasePath = Path.Combine(Folders.AppData, "Plugins", "Configs");
 
     private readonly string _pluginId;
-    private Dictionary<string, JsonElement> _settings = [];
-    private bool _settingsLoaded;
+    private Dictionary<string, JsonElement>? _settings;
 
     public ExtensionContext(string pluginId, INavigationService navigation, IUiDispatcher uiDispatcher, IExtensionLogger logger)
     {
@@ -36,20 +36,15 @@ public sealed class ExtensionContext : IExtensionContext
         return path;
     }
 
-    public bool TryGetSetting<T>(string key, out T value)
+    public async Task<T?> GetSettingAsync<T>(string key)
     {
-        EnsureSettingsLoaded();
+        var settings = await LoadSettingsAsync().ConfigureAwait(false);
 
-        if (_settings.TryGetValue(key, out var element))
+        if (settings.TryGetValue(key, out var element))
         {
             try
             {
-                var result = element.Deserialize<T>();
-                if (result is not null)
-                {
-                    value = result;
-                    return true;
-                }
+                return element.Deserialize<T>();
             }
             catch
             {
@@ -57,19 +52,16 @@ public sealed class ExtensionContext : IExtensionContext
             }
         }
 
-        value = default!;
-        return false;
+        return default;
     }
 
-    public bool TrySetSetting<T>(string key, T value)
+    public async Task<bool> SetSettingAsync<T>(string key, T value)
     {
-        EnsureSettingsLoaded();
-
         try
         {
-            var element = JsonSerializer.SerializeToElement(value);
-            _settings[key] = element;
-            SaveSettings();
+            var settings = await LoadSettingsAsync().ConfigureAwait(false);
+            settings[key] = JsonSerializer.SerializeToElement(value);
+            await SaveSettingsAsync(settings).ConfigureAwait(false);
             return true;
         }
         catch
@@ -78,29 +70,33 @@ public sealed class ExtensionContext : IExtensionContext
         }
     }
 
-    private void EnsureSettingsLoaded()
+    private async Task<Dictionary<string, JsonElement>> LoadSettingsAsync()
     {
-        if (_settingsLoaded)
-            return;
-
-        _settingsLoaded = true;
+        if (_settings is not null)
+            return _settings;
 
         var settingsFile = GetSettingsFilePath();
+
         if (!File.Exists(settingsFile))
-            return;
+        {
+            _settings = [];
+            return _settings;
+        }
 
         try
         {
-            var json = File.ReadAllText(settingsFile);
+            var json = await File.ReadAllTextAsync(settingsFile).ConfigureAwait(false);
             _settings = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(json) ?? [];
         }
         catch
         {
             _settings = [];
         }
+
+        return _settings;
     }
 
-    private void SaveSettings()
+    private async Task SaveSettingsAsync(Dictionary<string, JsonElement> settings)
     {
         var settingsFile = GetSettingsFilePath();
         var dir = Path.GetDirectoryName(settingsFile)!;
@@ -108,8 +104,8 @@ public sealed class ExtensionContext : IExtensionContext
         if (!Directory.Exists(dir))
             Directory.CreateDirectory(dir);
 
-        var json = JsonSerializer.Serialize(_settings, new JsonSerializerOptions { WriteIndented = true });
-        File.WriteAllText(settingsFile, json);
+        var json = JsonSerializer.Serialize(settings, new JsonSerializerOptions { WriteIndented = true });
+        await File.WriteAllTextAsync(settingsFile, json).ConfigureAwait(false);
     }
 
     private string GetSettingsFilePath()

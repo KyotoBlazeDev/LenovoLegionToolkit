@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using LenovoLegionToolkit.Lib.Station.Logging;
 using LenovoLegionToolkit.Lib.Station.Services;
 
@@ -10,4 +11,7 @@ public interface IExtensionContext
     IExtensionLogger Logger { get; }
 
     string GetPluginStoragePath(string pluginId);
+
+    Task<T?> GetSettingAsync<T>(string key);
+    Task<bool> SetSettingAsync<T>(string key, T value);
 }

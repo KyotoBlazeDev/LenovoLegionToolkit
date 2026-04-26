@@ -49,7 +49,7 @@ public sealed class ExtensionManager
         _logger.Trace($"Extension discovery completed. Loaded provider count: {_providers.Count}");
     }
 
-    public void StopAsync()
+    public async Task StopAsync()
     {
         _logger.Trace($"Stopping extension providers. Count={_providers.Count}");
 
@@ -58,7 +58,7 @@ public sealed class ExtensionManager
             try
             {
                 _logger.Trace($"Disposing provider: {provider.GetType().FullName}");
-                provider.Dispose();
+                await provider.DisposeAsync().ConfigureAwait(false);
                 _logger.Trace($"Disposed provider successfully: {provider.GetType().FullName}");
             }
             catch (Exception ex)
