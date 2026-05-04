@@ -475,7 +475,8 @@ public readonly struct GodModePreset
                $" {nameof(FanTableInfo)}: {FanTableInfo}," +
                $" {nameof(FanFullSpeed)}: {FanFullSpeed}," +
                $" {nameof(MinValueOffset)}: {MinValueOffset}," +
-               $" {nameof(MaxValueOffset)}: {MaxValueOffset}";
+               $" {nameof(MaxValueOffset)}: {MaxValueOffset}," +
+               $" {nameof(Overrides)}: [{string.Join(", ", Overrides?.Select(kv => $"{kv.Key}={kv.Value}") ?? [])}]";
     }
 }
 

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using LenovoLegionToolkit.Lib.Extensions;
 using static LenovoLegionToolkit.Lib.Settings.GodModeSettings;
 
 namespace LenovoLegionToolkit.Lib.Settings;

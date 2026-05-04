@@ -23,7 +23,6 @@ namespace LenovoLegionToolkit.WPF.Windows.Settings;
 public partial class WindowsPowerPlansWindow
 {
     private static readonly WindowsPowerPlan DefaultValue = new(Guid.Empty, Resource.WindowsPowerPlansWindow_DefaultPowerPlan, false);
-    private static readonly Guid BalancedPowerPlanGuid = Guid.Parse("381b4222-f694-41f0-9685-ff5bb260df2e");
 
     private readonly WindowsPowerPlanController _windowsPowerPlanController = IoCContainer.Resolve<WindowsPowerPlanController>();
     private readonly PowerModeFeature _powerModeFeature = IoCContainer.Resolve<PowerModeFeature>();
@@ -160,6 +159,7 @@ public partial class WindowsPowerPlansWindow
 
         overlayContainer.Visibility = isBalanced ? Visibility.Visible : Visibility.Collapsed;
     }
+
     private static (StackPanel Row, ComboBox AcCombo, ComboBox DcCombo) BuildBalanceOverlayRow(
         WindowsPowerMode[] powerModes, WindowsPowerMode savedAc, WindowsPowerMode savedDc)
     {
@@ -314,7 +314,7 @@ public partial class WindowsPowerPlansWindow
     }
 
     private static bool IsBalancedPlan(Guid guid) =>
-        guid == BalancedPowerPlanGuid;
+        guid == WindowsPowerPlanController.DefaultPowerPlan;
 
     private Guid? GetGodModePresetPowerPlan(string presetKey)
     {
@@ -349,7 +349,6 @@ public partial class WindowsPowerPlansWindow
             var powerPlan = preset.Overrides.TryGetGuid(PowerOverrideKey.PowerPlan);
             if (powerPlan == null)
                 return;
-            _settings.Store.PowerPlans[powerModeState] = powerPlan.Value;
         }
 
         _settings.SynchronizeStore();
@@ -379,7 +378,8 @@ public partial class WindowsPowerPlansWindow
 
         if (!presetKvp.Equals(default(KeyValuePair<Guid, GodModeSettingsStore.Preset>)) && presetKvp.Value != null)
         {
-            var newOv = new Dictionary<PowerOverrideKey, string>(presetKvp.Value.Overrides ?? []) { [PowerOverrideKey.PowerPlan] = windowsPowerPlan.Guid.ToString() };
+            var newOv = new Dictionary<PowerOverrideKey, string>(presetKvp.Value.Overrides ?? []);
+            newOv.SetGuid(PowerOverrideKey.PowerPlan, windowsPowerPlan.Guid);
             if (windowsPowerPlan.Guid != Guid.Empty && !IsBalancedPlan(windowsPowerPlan.Guid))
             {
                 newOv.Remove(PowerOverrideKey.PowerPlanBalanceOnAc);
@@ -404,9 +404,9 @@ public partial class WindowsPowerPlansWindow
         {
             var newOv = new Dictionary<PowerOverrideKey, string>(presetKvp.Value.Overrides ?? []);
             if (isAc)
-                newOv[PowerOverrideKey.PowerPlanBalanceOnAc] = selectedMode.ToString();
+                newOv.SetEnum(PowerOverrideKey.PowerPlanBalanceOnAc, (WindowsPowerMode?)selectedMode);
             else
-                newOv[PowerOverrideKey.PowerPlanBalanceOnDc] = selectedMode.ToString();
+                newOv.SetEnum(PowerOverrideKey.PowerPlanBalanceOnDc, (WindowsPowerMode?)selectedMode);
             var updated = presetKvp.Value with { Overrides = newOv };
             _godModeSettings.Store.Presets[presetKvp.Key] = updated;
             _godModeSettings.SynchronizeStore();

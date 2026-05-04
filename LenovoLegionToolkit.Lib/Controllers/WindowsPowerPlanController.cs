@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -17,7 +17,7 @@ namespace LenovoLegionToolkit.Lib.Controllers;
 
 public class WindowsPowerPlanController(ApplicationSettings settings, VantageDisabler vantageDisabler)
 {
-    private static readonly Guid DefaultPowerPlan = Guid.Parse("381b4222-f694-41f0-9685-ff5bb260df2e");
+    public static readonly Guid DefaultPowerPlan = Guid.Parse("381b4222-f694-41f0-9685-ff5bb260df2e");
 
     public IEnumerable<WindowsPowerPlan> GetPowerPlans()
     {

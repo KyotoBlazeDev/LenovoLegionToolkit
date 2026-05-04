@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -256,9 +256,9 @@ public partial class WindowsPowerModesWindow
         {
             var newOv = new Dictionary<PowerOverrideKey, string>(presetKvp.Value.Overrides ?? []);
             if (isAc)
-                newOv[PowerOverrideKey.PowerModeOnAc] = windowsPowerMode.ToString();
+                newOv.SetEnum(PowerOverrideKey.PowerModeOnAc, (WindowsPowerMode?)windowsPowerMode);
             else
-                newOv[PowerOverrideKey.PowerModeOnDc] = windowsPowerMode.ToString();
+                newOv.SetEnum(PowerOverrideKey.PowerModeOnDc, (WindowsPowerMode?)windowsPowerMode);
             var updated = presetKvp.Value with { Overrides = newOv };
             _godModeSettings.Store.Presets[presetKvp.Key] = updated;
             _godModeSettings.SynchronizeStore();

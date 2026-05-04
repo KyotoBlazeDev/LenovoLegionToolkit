@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
@@ -101,27 +101,6 @@ public partial class WindowsPowerModeController(ApplicationSettings settings, IM
         Log.Instance.Trace($"Power mode activated... [powerModeState={powerModeState}, acGuid={acGuid}, dcGuid={dcGuid}]");
     }
 
-    public static void SetActiveOverlayRegistry(Guid guid)
-    {
-        try
-        {
-            Registry.SetValue(POWER_SCHEMES_HIVE, POWER_SCHEMES_SUBKEY, ACTIVE_OVERLAY_AC_POWER_SCHEME_KEY, guid, true);
-        }
-        catch (Exception ex)
-        {
-            Log.Instance.Trace($"Failed to set {ACTIVE_OVERLAY_AC_POWER_SCHEME_KEY} registry value.", ex);
-        }
-
-        try
-        {
-            Registry.SetValue(POWER_SCHEMES_HIVE, POWER_SCHEMES_SUBKEY, ACTIVE_OVERLAY_DC_POWER_SCHEME_KEY, guid, true);
-        }
-        catch (Exception ex)
-        {
-            Log.Instance.Trace($"Failed to set {ACTIVE_OVERLAY_DC_POWER_SCHEME_KEY} registry value.", ex);
-        }
-    }
-
     public static void SetActiveOverlayRegistryForAc(Guid guid)
     {
         try
@@ -146,11 +125,6 @@ public partial class WindowsPowerModeController(ApplicationSettings settings, IM
         {
             Log.Instance.Trace($"Failed to set {ACTIVE_OVERLAY_DC_POWER_SCHEME_KEY} registry value.", ex);
         }
-    }
-
-    private static void UpdateRegistry(Guid guid)
-    {
-        SetActiveOverlayRegistry(guid);
     }
 
     public static Guid GuidForWindowsPowerMode(WindowsPowerMode windowsPowerMode) => windowsPowerMode switch
