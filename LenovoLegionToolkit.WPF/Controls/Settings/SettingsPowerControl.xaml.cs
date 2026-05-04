@@ -98,6 +98,9 @@ public partial class SettingsPowerControl
         _powerModesCard.Visibility = _settings.Store.PowerModeMappingMode == PowerModeMappingMode.WindowsPowerMode && isPowerModeFeatureSupported ? Visibility.Visible : Visibility.Collapsed;
         _windowsPowerPlansCard.Visibility = _settings.Store.PowerModeMappingMode == PowerModeMappingMode.WindowsPowerPlan && isPowerModeFeatureSupported ? Visibility.Visible : Visibility.Collapsed;
         _windowsPowerPlansControlPanelCard.Visibility = _settings.Store.PowerModeMappingMode == PowerModeMappingMode.WindowsPowerPlan && isPowerModeFeatureSupported ? Visibility.Visible : Visibility.Collapsed;
+
+        if (powerModeMappingMode != PowerModeMappingMode.Disabled)
+            await _powerModeFeature.EnsureCorrectWindowsPowerSettingsAreSetAsync();
     }
 
     private void WindowsPowerPlans_Click(object sender, RoutedEventArgs e)

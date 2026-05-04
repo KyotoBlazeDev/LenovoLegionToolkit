@@ -54,6 +54,9 @@ public partial class WindowsPowerModeController(ApplicationSettings settings, IM
             return;
         }
 
+        var adapterStatus = await Power.IsPowerAdapterConnectedAsync().ConfigureAwait(false);
+        var activeGuid = adapterStatus != PowerAdapterStatus.Disconnected ? acGuid : dcGuid;
+
         await _dispatcher.DispatchAsync(() =>
         {
             try
@@ -69,8 +72,8 @@ public partial class WindowsPowerModeController(ApplicationSettings settings, IM
             {
                 try
                 {
-                    var result = PowerSetActiveOverlayScheme(acGuid);
-                    Log.Instance.Trace($"Overlay scheme set. [result={result}, acGuid={acGuid}]");
+                    var result = PowerSetActiveOverlayScheme(activeGuid);
+                    Log.Instance.Trace($"Overlay scheme set. [result={result}, activeGuid={activeGuid}]");
                 }
                 catch (Exception ex)
                 {
