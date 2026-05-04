@@ -130,6 +130,12 @@ public partial class WindowsPowerModeController(ApplicationSettings settings, IM
         _ => Guid.Empty
     };
 
+    public static void ApplyActiveOverlayScheme(Guid guid)
+    {
+        var result = PowerSetActiveOverlayScheme(guid);
+        Log.Instance.Trace($"Overlay scheme set. [result={result}, guid={guid}]");
+    }
+
     private static unsafe void ActivateDefaultPowerPlanIfNeeded()
     {
         if (PInvoke.PowerGetActiveScheme(null, out var guid) != WIN32_ERROR.ERROR_SUCCESS)

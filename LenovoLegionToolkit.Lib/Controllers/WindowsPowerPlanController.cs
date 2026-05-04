@@ -15,9 +15,11 @@ using static LenovoLegionToolkit.Lib.Settings.GodModeSettings;
 
 namespace LenovoLegionToolkit.Lib.Controllers;
 
-public class WindowsPowerPlanController(ApplicationSettings settings, VantageDisabler vantageDisabler)
+public class WindowsPowerPlanController(ApplicationSettings settings, VantageDisabler vantageDisabler, IMainThreadDispatcher mainThreadDispatcher)
 {
     public static readonly Guid DefaultPowerPlan = Guid.Parse("381b4222-f694-41f0-9685-ff5bb260df2e");
+
+    private readonly ThrottleLastDispatcher _overlayDispatcher = new(TimeSpan.FromSeconds(2), nameof(WindowsPowerPlanController));
 
     public IEnumerable<WindowsPowerPlan> GetPowerPlans()
     {
@@ -76,7 +78,7 @@ public class WindowsPowerPlanController(ApplicationSettings settings, VantageDis
         {
             Log.Instance.Trace($"Power plan {powerPlanToActivate.Guid} is already active. [name={powerPlanToActivate.Name}]");
 
-            ApplyBalanceOverlayIfNeeded(powerPlanToActivate.Guid, powerModeState, preset);
+            await ApplyBalanceOverlayIfNeededAsync(powerPlanToActivate.Guid, powerModeState, preset).ConfigureAwait(false);
             return;
         }
 
@@ -91,10 +93,10 @@ public class WindowsPowerPlanController(ApplicationSettings settings, VantageDis
             return;
         }
 
-        ApplyBalanceOverlayIfNeeded(powerPlanToActivate.Guid, powerModeState, preset);
+        await ApplyBalanceOverlayIfNeededAsync(powerPlanToActivate.Guid, powerModeState, preset).ConfigureAwait(false);
     }
 
-    private void ApplyBalanceOverlayIfNeeded(Guid activePowerPlanGuid, PowerModeState powerModeState, GodModeSettingsStore.Preset? preset = null)
+    private async Task ApplyBalanceOverlayIfNeededAsync(Guid activePowerPlanGuid, PowerModeState powerModeState, GodModeSettingsStore.Preset? preset = null)
     {
         if (activePowerPlanGuid != DefaultPowerPlan)
         {
@@ -132,17 +134,44 @@ public class WindowsPowerPlanController(ApplicationSettings settings, VantageDis
             return;
         }
 
-        if (acMode.HasValue)
+        var adapterStatus = await Power.IsPowerAdapterConnectedAsync().ConfigureAwait(false);
+        var isAc = adapterStatus != PowerAdapterStatus.Disconnected;
+
+        var activeMode = isAc ? acMode : dcMode;
+        Guid? activeGuid = activeMode.HasValue ? WindowsPowerModeController.GuidForWindowsPowerMode(activeMode.Value) : (Guid?)null;
+
+        var acRegistryGuid = acMode.HasValue ? WindowsPowerModeController.GuidForWindowsPowerMode(acMode.Value) : (Guid?)null;
+        var dcRegistryGuid = dcMode.HasValue ? WindowsPowerModeController.GuidForWindowsPowerMode(dcMode.Value) : (Guid?)null;
+
+        if (!activeGuid.HasValue)
         {
-            var acGuid = WindowsPowerModeController.GuidForWindowsPowerMode(acMode.Value);
-            WindowsPowerModeController.SetActiveOverlayRegistryForAc(acGuid);
+            Log.Instance.Trace($"No Balance overlay configured for current power source, skipping overlay scheme.");
+            return;
         }
 
-        if (dcMode.HasValue)
+        var guidToApply = activeGuid.Value;
+        await _overlayDispatcher.DispatchAsync(() =>
         {
-            var dcGuid = WindowsPowerModeController.GuidForWindowsPowerMode(dcMode.Value);
-            WindowsPowerModeController.SetActiveOverlayRegistryForDc(dcGuid);
-        }
+            mainThreadDispatcher.Dispatch(() =>
+            {
+                try
+                {
+                    WindowsPowerModeController.ApplyActiveOverlayScheme(guidToApply);
+                    Log.Instance.Trace($"Balance overlay scheme applied. [guidToApply={guidToApply}]");
+                }
+                catch (Exception ex)
+                {
+                    Log.Instance.Trace($"Failed to apply balance overlay scheme.", ex);
+                }
+            });
+
+            if (acRegistryGuid.HasValue)
+                WindowsPowerModeController.SetActiveOverlayRegistryForAc(acRegistryGuid.Value);
+            if (dcRegistryGuid.HasValue)
+                WindowsPowerModeController.SetActiveOverlayRegistryForDc(dcRegistryGuid.Value);
+
+            return Task.CompletedTask;
+        }).ConfigureAwait(false);
     }
 
     public void SetPowerPlanParameter(WindowsPowerPlan windowsPowerPlan, Brightness brightness)
