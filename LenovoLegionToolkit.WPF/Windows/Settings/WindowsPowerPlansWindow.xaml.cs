@@ -352,7 +352,20 @@ public partial class WindowsPowerPlansWindow
         }
 
         _settings.SynchronizeStore();
-        await _powerModeFeature.EnsureCorrectWindowsPowerSettingsAreSetAsync(preset);
+
+        var currentState = await _powerModeFeature.GetStateAsync();
+        if (currentState == powerModeState)
+        {
+            if (powerModeState == PowerModeState.GodMode && preset != null)
+            {
+                if (_godModeSettings.Store.Presets.TryGetValue(_godModeSettings.Store.ActivePresetId, out var activePreset) && 
+                    !activePreset.Equals(preset))
+                {
+                    return;
+                }
+            }
+            await _powerModeFeature.EnsureCorrectWindowsPowerSettingsAreSetAsync(preset);
+        }
     }
 
     private async Task BalanceOverlayChangedAsync(WindowsPowerMode selectedMode, PowerModeState powerModeState, bool isAc)
@@ -366,7 +379,12 @@ public partial class WindowsPowerPlansWindow
             _settings.Store.Overrides.SetPowerPlanBalanceOnDc(powerModeState, selectedMode);
 
         _settings.SynchronizeStore();
-        await _powerModeFeature.EnsureCorrectWindowsPowerSettingsAreSetAsync();
+
+        var currentState = await _powerModeFeature.GetStateAsync();
+        if (currentState == powerModeState)
+        {
+            await _powerModeFeature.EnsureCorrectWindowsPowerSettingsAreSetAsync();
+        }
     }
 
     private async Task GodModePresetPowerPlanChangedAsync(string presetKey, WindowsPowerPlan windowsPowerPlan)
@@ -389,7 +407,11 @@ public partial class WindowsPowerPlansWindow
             _godModeSettings.Store.Presets[presetKvp.Key] = updated;
             _godModeSettings.SynchronizeStore();
 
-            await WindowsPowerPlanChangedAsync(windowsPowerPlan, PowerModeState.GodMode, updated);
+            var currentState = await _powerModeFeature.GetStateAsync();
+            if (currentState == PowerModeState.GodMode && _godModeSettings.Store.ActivePresetId.ToString() == presetKey)
+            {
+                await WindowsPowerPlanChangedAsync(windowsPowerPlan, PowerModeState.GodMode, updated);
+            }
         }
     }
 
@@ -411,7 +433,11 @@ public partial class WindowsPowerPlansWindow
             _godModeSettings.Store.Presets[presetKvp.Key] = updated;
             _godModeSettings.SynchronizeStore();
 
-            await _powerModeFeature.EnsureCorrectWindowsPowerSettingsAreSetAsync(updated);
+            var currentState = await _powerModeFeature.GetStateAsync();
+            if (currentState == PowerModeState.GodMode && _godModeSettings.Store.ActivePresetId.ToString() == presetKey)
+            {
+                await _powerModeFeature.EnsureCorrectWindowsPowerSettingsAreSetAsync(updated);
+            }
         }
     }
 }

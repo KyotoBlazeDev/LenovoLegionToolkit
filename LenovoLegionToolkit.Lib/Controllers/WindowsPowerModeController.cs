@@ -65,25 +65,18 @@ public partial class WindowsPowerModeController(ApplicationSettings settings, IM
                 Log.Instance.Trace($"Failed to activate default power plan.", ex);
             }
 
-            if (acGuid != Guid.Empty)
+            mainThreadDispatcher.Dispatch(() =>
             {
-                mainThreadDispatcher.Dispatch(() =>
+                try
                 {
-                    try
-                    {
-                        var result = PowerSetActiveOverlayScheme(acGuid);
-                        Log.Instance.Trace($"Overlay scheme set. [result={result}]");
-                    }
-                    catch (Exception ex)
-                    {
-                        Log.Instance.Trace($"Failed to set active overlay scheme.", ex);
-                    }
-                });
-            }
-            else
-            {
-                Log.Instance.Trace($"Skipping overlay scheme call for Balanced mode (Guid.Empty).");
-            }
+                    var result = PowerSetActiveOverlayScheme(acGuid);
+                    Log.Instance.Trace($"Overlay scheme set. [result={result}, acGuid={acGuid}]");
+                }
+                catch (Exception ex)
+                {
+                    Log.Instance.Trace($"Failed to set active overlay scheme.", ex);
+                }
+            });
 
             try
             {

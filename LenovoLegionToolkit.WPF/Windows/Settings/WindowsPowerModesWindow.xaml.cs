@@ -242,7 +242,11 @@ public partial class WindowsPowerModesWindow
 
         _settings.SynchronizeStore();
 
-        await _powerModeFeature.EnsureCorrectWindowsPowerSettingsAreSetAsync();
+        var currentState = await _powerModeFeature.GetStateAsync();
+        if (currentState == powerModeState)
+        {
+            await _powerModeFeature.EnsureCorrectWindowsPowerSettingsAreSetAsync();
+        }
     }
 
     private async Task GodModePresetPowerModeChangedAsync(string presetKey, WindowsPowerMode windowsPowerMode, bool isAc)
@@ -263,7 +267,11 @@ public partial class WindowsPowerModesWindow
             _godModeSettings.Store.Presets[presetKvp.Key] = updated;
             _godModeSettings.SynchronizeStore();
 
-            await _powerModeFeature.EnsureCorrectWindowsPowerSettingsAreSetAsync(updated);
+            var currentState = await _powerModeFeature.GetStateAsync();
+            if (currentState == PowerModeState.GodMode && _godModeSettings.Store.ActivePresetId.ToString() == presetKey)
+            {
+                await _powerModeFeature.EnsureCorrectWindowsPowerSettingsAreSetAsync(updated);
+            }
         }
     }
 }
