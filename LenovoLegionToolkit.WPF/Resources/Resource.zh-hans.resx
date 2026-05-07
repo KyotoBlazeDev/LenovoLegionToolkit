@@ -2902,7 +2902,7 @@
     <value>使用新的状态面板</value>
   </data>
   <data name="SettingsPage_WindowBackdropType_Info" xml:space="preserve">
-    <value>如果在 HDR 或自动颜色管理开启时在提示窗口上遇到视觉伪影，请将其设置为无。</value>
+    <value>If you experience visual artifacts on Snackbar Notifications in HDR mode, set this to "None".</value>
   </data>
   <data name="SettingsPage_WindowBackdropType_Message" xml:space="preserve">
     <value>用于应用程序窗口背景的效果。</value>
