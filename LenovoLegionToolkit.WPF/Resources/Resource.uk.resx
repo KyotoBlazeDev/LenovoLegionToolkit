@@ -1274,6 +1274,12 @@
   <data name="GodModeSettingsWindow_VantageWarning_Title" xml:space="preserve">
     <value>Налаштування користувальницького режиму не застосовуватимуться правильно, коли запущено Lenovo Vantage або його служби.</value>
   </data>
+  <data name="HardwareSensorsAutomationStepControl_Message" xml:space="preserve">
+    <value>Enable or disable background polling for hardware sensors.</value>
+  </data>
+  <data name="HardwareSensorsAutomationStepControl_Title" xml:space="preserve">
+    <value>Hardware Sensors</value>
+  </data>
   <data name="HDRAutomationStepControl_Message" xml:space="preserve">
     <value>Увімкнути HDR на вбудованому дисплеї.
 
@@ -3223,17 +3229,17 @@
   <data name="WindowsPowerModesWindow_Title" xml:space="preserve">
     <value>Плани живлення</value>
   </data>
+  <data name="WindowsPowerPlansWindow_DefaultPowerPlan" xml:space="preserve">
+    <value>За замовчуванням</value>
+  </data>
   <data name="WindowsPowerPlansWindow_PowerMode_AC" xml:space="preserve">
     <value>AC</value>
-  </data>
-  <data name="WindowsPowerPlansWindow_PowerMode_Title" xml:space="preserve">
-    <value>Power Mode</value>
   </data>
   <data name="WindowsPowerPlansWindow_PowerMode_DC" xml:space="preserve">
     <value>DC</value>
   </data>
-  <data name="WindowsPowerPlansWindow_DefaultPowerPlan" xml:space="preserve">
-    <value>За замовчуванням</value>
+  <data name="WindowsPowerPlansWindow_PowerMode_Title" xml:space="preserve">
+    <value>Power Mode</value>
   </data>
   <data name="WindowsPowerPlansWindow_Title" xml:space="preserve">
     <value>План живлення Windows</value>
