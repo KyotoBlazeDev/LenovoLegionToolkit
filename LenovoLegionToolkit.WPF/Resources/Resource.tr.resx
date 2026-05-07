@@ -2892,7 +2892,7 @@ Bu seçeneği değiştirdikten sonra yeniden başlatma önerilir.</value>
     <value>Yeni Sensör Gösterge Panelini Kullan</value>
   </data>
   <data name="SettingsPage_WindowBackdropType_Info" xml:space="preserve">
-    <value>HDR veya ACM modunda Snackbar'larda görsel bozulmalar yaşıyorsanız, bunu “Yok” olarak ayarlayın.</value>
+    <value>If you experience visual artifacts on Snackbar Notifications in HDR mode, set this to "None".</value>
   </data>
   <data name="SettingsPage_WindowBackdropType_Message" xml:space="preserve">
     <value>Uygulama penceresinin arka planında kullanılan efekt.</value>
