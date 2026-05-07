@@ -264,6 +264,12 @@
   <data name="ITSMode_Intelligent_Geek" xml:space="preserve">
     <value>Geek</value>
   </data>
+  <data name="HardwareSensorsState_Off" xml:space="preserve">
+    <value>Off</value>
+  </data>
+  <data name="HardwareSensorsState_On" xml:space="preserve">
+    <value>On</value>
+  </data>
   <data name="MicrophoneState_Off" xml:space="preserve">
     <value>إيقاف</value>
     <comment>Informs the user that the microphone is or will be turned off.</comment>
