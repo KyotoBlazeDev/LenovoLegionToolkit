@@ -2894,7 +2894,7 @@ Se recomienda reiniciar después de cambiar esta opción.</value>
     <value>Utiliza el nuevo panel de control</value>
   </data>
   <data name="SettingsPage_WindowBackdropType_Info" xml:space="preserve">
-    <value>Si experimenta artefactos visuales en los Snackbars en modo HDR o ACM, establezca esto en "ninguno".</value>
+    <value>If you experience visual artifacts on Snackbar Notifications in HDR mode, set this to "None".</value>
   </data>
   <data name="SettingsPage_WindowBackdropType_Message" xml:space="preserve">
     <value>El efecto usado para el fondo de la ventana de la aplicación.</value>
