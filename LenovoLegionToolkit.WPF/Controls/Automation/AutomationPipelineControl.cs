@@ -527,6 +527,7 @@ public class AutomationPipelineControl : UserControl
             FlipToStartAutomationStep s => new FlipToStartAutomationStepControl(s),
             FnLockAutomationStep s => new FnLockAutomationStepControl(s),
             GodModePresetAutomationStep s => new GodModePresetAutomationStepControl(s),
+            HardwareSensorsAutomationStep s => new HardwareSensorsAutomationStepControl(s),
             HDRAutomationStep s => new HDRAutomationStepControl(s),
             HybridModeAutomationStep s => await HybridModeAutomationStepControlFactory.GetControlAsync(s),
             ITSModeAutomationStep s => new ITSModeAutomationStepControl(s),

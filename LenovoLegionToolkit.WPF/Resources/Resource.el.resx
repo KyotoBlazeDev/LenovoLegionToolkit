@@ -1277,6 +1277,9 @@ Do not proceed unless you possess the necessary technical expertise.</value>
   <data name="GodModeSettingsWindow_VantageWarning_Title" xml:space="preserve">
     <value>Οι ρυθμίσεις της Προσαρμοσμένης Λειτουργίας δε θα εφαρμοστούν σωστά όταν εκτελείται το Lenovo Vantage ή οι υπηρεσίες του.</value>
   </data>
+  <data name="HardwareSensorsAutomationStepControl_Title" xml:space="preserve">
+    <value>Hardware Sensors</value>
+  </data>
   <data name="HDRAutomationStepControl_Message" xml:space="preserve">
     <value>Ενεργοποίηση υψηλού δυναμικού εύρους (HDR) στην ενσωματωμένη οθόνη.
 
@@ -3227,17 +3230,17 @@ Do not proceed unless you possess the necessary technical expertise.</value>
   <data name="WindowsPowerModesWindow_Title" xml:space="preserve">
     <value>Λειτουργίες Ισχύος Windows</value>
   </data>
+  <data name="WindowsPowerPlansWindow_DefaultPowerPlan" xml:space="preserve">
+    <value>Προεπιλογή</value>
+  </data>
   <data name="WindowsPowerPlansWindow_PowerMode_AC" xml:space="preserve">
     <value>AC</value>
-  </data>
-  <data name="WindowsPowerPlansWindow_PowerMode_Title" xml:space="preserve">
-    <value>Power Mode</value>
   </data>
   <data name="WindowsPowerPlansWindow_PowerMode_DC" xml:space="preserve">
     <value>DC</value>
   </data>
-  <data name="WindowsPowerPlansWindow_DefaultPowerPlan" xml:space="preserve">
-    <value>Προεπιλογή</value>
+  <data name="WindowsPowerPlansWindow_PowerMode_Title" xml:space="preserve">
+    <value>Power Mode</value>
   </data>
   <data name="WindowsPowerPlansWindow_Title" xml:space="preserve">
     <value>Πλάνα Τροφοδοσίας Windows</value>

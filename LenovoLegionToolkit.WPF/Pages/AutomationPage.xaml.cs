@@ -175,6 +175,7 @@ public partial class AutomationPage
             new FlipToStartAutomationStep(default),
             new FnLockAutomationStep(default),
             new GodModePresetAutomationStep(default),
+            new HardwareSensorsAutomationStep(default),
             new HDRAutomationStep(default),
             new ITSModeAutomationStep(default),
             new HybridModeAutomationStep(default),

@@ -387,6 +387,14 @@ public enum MicrophoneState
     On
 }
 
+public enum HardwareSensorsState
+{
+    [Display(ResourceType = typeof(Resource), Name = "HardwareSensorsState_Off")]
+    Off,
+    [Display(ResourceType = typeof(Resource), Name = "HardwareSensorsState_On")]
+    On
+}
+
 [Flags]
 public enum ModifierKey
 {

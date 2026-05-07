@@ -217,6 +217,12 @@
   <data name="GPUController_PoweredOn" xml:space="preserve">
     <value>Увімкнений</value>
   </data>
+  <data name="HardwareSensorsState_Off" xml:space="preserve">
+    <value>Off</value>
+  </data>
+  <data name="HardwareSensorsState_On" xml:space="preserve">
+    <value>On</value>
+  </data>
   <data name="HDRState_Off" xml:space="preserve">
     <value>Вимкнено</value>
     <comment>Informs the user that HDR is or will be turned off.</comment>

@@ -68,6 +68,7 @@ public class IoCModule : Module
         builder.Register<InstantBootFeature>();
         builder.Register<InstantBootFeatureFlagsFeature>(true);
         builder.Register<InstantBootCapabilityFeature>(true);
+        builder.Register<HardwareSensorsFeature>();
         builder.Register<MicrophoneFeature>();
         builder.Register<OneLevelWhiteKeyboardBacklightFeature>();
         builder.Register<OverDriveFeature>();

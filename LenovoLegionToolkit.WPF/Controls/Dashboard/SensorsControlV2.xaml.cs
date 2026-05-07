@@ -94,6 +94,24 @@ public partial class SensorsControlV2
                 }
             });
         });
+
+        MessagingCenter.Subscribe<FeatureStateMessage<HardwareSensorsState>>(this, message =>
+        {
+            Dispatcher.Invoke(() =>
+            {
+                if (message.State == HardwareSensorsState.Off)
+                {
+                    _sensorsGroupControllers.Stop(this);
+                    _sensorsGroupControllers.SensorsUpdated -= OnSensorsUpdated;
+                    ClearAllSensorValues();
+                }
+                else if (IsVisible)
+                {
+                    _sensorsGroupControllers.SensorsUpdated += OnSensorsUpdated;
+                    _sensorsGroupControllers.Start(this, TimeSpan.FromSeconds(_sensorsControlSettings.Store.SensorsRefreshIntervalSeconds));
+                }
+            });
+        });
     }
 
     private void UpdateControlsVisibility()
@@ -171,6 +189,10 @@ public partial class SensorsControlV2
             }
 
             UpdateControlsVisibility();
+
+            if (!_applicationSettings.Store.EnableHardwareSensors)
+                return;
+
             _sensorsGroupControllers.SensorsUpdated += OnSensorsUpdated;
             _sensorsGroupControllers.Start(this, TimeSpan.FromSeconds(_sensorsControlSettings.Store.SensorsRefreshIntervalSeconds));
         }

@@ -1277,6 +1277,9 @@ Nopietni, esi uzmanīgs ar šo variantu!</value>
   <data name="GodModeSettingsWindow_VantageWarning_Title" xml:space="preserve">
     <value>Pielāgotā Režīma iestatījumi netiks pielietoti pareizi kamēr Lenovo Vantage un tā servisi ir ieslēgti.</value>
   </data>
+  <data name="HardwareSensorsAutomationStepControl_Title" xml:space="preserve">
+    <value>Hardware Sensors</value>
+  </data>
   <data name="HDRAutomationStepControl_Message" xml:space="preserve">
     <value>Iebūvētajā ekrānā iespējojiet augstu dinamisko diapazonu (HDR).
 
@@ -3227,17 +3230,17 @@ Ja izvēlaties turpināt, reģistrēšana tiks iespējota automātiski.</value>
   <data name="WindowsPowerModesWindow_Title" xml:space="preserve">
     <value>Windows Power Modes</value>
   </data>
+  <data name="WindowsPowerPlansWindow_DefaultPowerPlan" xml:space="preserve">
+    <value>Default</value>
+  </data>
   <data name="WindowsPowerPlansWindow_PowerMode_AC" xml:space="preserve">
     <value>AC</value>
-  </data>
-  <data name="WindowsPowerPlansWindow_PowerMode_Title" xml:space="preserve">
-    <value>Power Mode</value>
   </data>
   <data name="WindowsPowerPlansWindow_PowerMode_DC" xml:space="preserve">
     <value>DC</value>
   </data>
-  <data name="WindowsPowerPlansWindow_DefaultPowerPlan" xml:space="preserve">
-    <value>Default</value>
+  <data name="WindowsPowerPlansWindow_PowerMode_Title" xml:space="preserve">
+    <value>Power Mode</value>
   </data>
   <data name="WindowsPowerPlansWindow_Title" xml:space="preserve">
     <value>Windows Power Plans</value>

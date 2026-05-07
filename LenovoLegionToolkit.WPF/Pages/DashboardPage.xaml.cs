@@ -38,7 +38,11 @@ public partial class DashboardPage
 
         MessagingCenter.Subscribe<SensorDashboardSwappedMessage>(this, _ =>
         {
-            Dispatcher.Invoke(RefreshSensorControl);
+            Dispatcher.Invoke(() =>
+            {
+                EnsureConfigFilesExist();
+                RefreshSensorControl();
+            });
         });
     }
 
