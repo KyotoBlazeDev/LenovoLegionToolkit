@@ -1274,6 +1274,9 @@
   <data name="GodModeSettingsWindow_VantageWarning_Title" xml:space="preserve">
     <value>Налаштування користувальницького режиму не застосовуватимуться правильно, коли запущено Lenovo Vantage або його служби.</value>
   </data>
+  <data name="HardwareSensorsAutomationStepControl_Message" xml:space="preserve">
+    <value>Enable or disable background polling for hardware sensors.</value>
+  </data>
   <data name="HardwareSensorsAutomationStepControl_Title" xml:space="preserve">
     <value>Hardware Sensors</value>
   </data>
@@ -2885,7 +2888,7 @@
     <value>Використовувати нову панель сенсорів</value>
   </data>
   <data name="SettingsPage_WindowBackdropType_Info" xml:space="preserve">
-    <value>Якщо у режимі HDR або ACM виникають візуальні артефакти, встановіть для цього параметра значення «Немає».</value>
+    <value>If you experience visual artifacts on Snackbar Notifications in HDR mode, set this to "None".</value>
   </data>
   <data name="SettingsPage_WindowBackdropType_Message" xml:space="preserve">
     <value>Ефект використовується для фону вікна програми.</value>

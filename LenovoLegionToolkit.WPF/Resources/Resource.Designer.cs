@@ -8294,7 +8294,7 @@ namespace LenovoLegionToolkit.WPF.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to If you experience visual artifacts on Snackbars in HDR or ACM mode, set this to &quot;None&quot;..
+        ///   Looks up a localized string similar to If you experience visual artifacts on Snackbar Notifications in HDR mode, set this to &quot;None&quot;..
         /// </summary>
         public static string SettingsPage_WindowBackdropType_Info {
             get {

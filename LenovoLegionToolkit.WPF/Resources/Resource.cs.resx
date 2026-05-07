@@ -1277,6 +1277,9 @@ Vážně, buď opatrný s touto možností!</value>
   <data name="GodModeSettingsWindow_VantageWarning_Title" xml:space="preserve">
     <value>Nastavení vlastního režimu nebude správně použito, pokud Lenovo Vantage nebo jeho služby běží.</value>
   </data>
+  <data name="HardwareSensorsAutomationStepControl_Message" xml:space="preserve">
+    <value>Enable or disable background polling for hardware sensors.</value>
+  </data>
   <data name="HardwareSensorsAutomationStepControl_Title" xml:space="preserve">
     <value>Hardware Sensors</value>
   </data>
@@ -2889,7 +2892,7 @@ Po změně této volby je doporučen restart.</value>
     <value>Použít nový ovládací panel senzoru</value>
   </data>
   <data name="SettingsPage_WindowBackdropType_Info" xml:space="preserve">
-    <value>If you experience visual artifacts on Snackbars in HDR or ACM mode, set this to "None".</value>
+    <value>If you experience visual artifacts on Snackbar Notifications in HDR mode, set this to "None".</value>
   </data>
   <data name="SettingsPage_WindowBackdropType_Message" xml:space="preserve">
     <value>The effect used for the background of the application window.</value>

@@ -1274,6 +1274,9 @@ Do not proceed unless you possess the necessary technical expertise.</value>
   <data name="GodModeSettingsWindow_VantageWarning_Title" xml:space="preserve">
     <value>Custom Mode settings will not be applied correctly when Lenovo Vantage or its services are running.</value>
   </data>
+  <data name="HardwareSensorsAutomationStepControl_Message" xml:space="preserve">
+    <value>Enable or disable background polling for hardware sensors.</value>
+  </data>
   <data name="HardwareSensorsAutomationStepControl_Title" xml:space="preserve">
     <value>Hardware Sensors</value>
   </data>
@@ -2886,7 +2889,7 @@ It won't affect other full screen windows, but you will not be able to click on 
     <value>Use New Sensor Dashboard</value>
   </data>
   <data name="SettingsPage_WindowBackdropType_Info" xml:space="preserve">
-    <value>If you experience visual artifacts on Snackbars in HDR or ACM mode, set this to "None".</value>
+    <value>If you experience visual artifacts on Snackbar Notifications in HDR mode, set this to "None".</value>
   </data>
   <data name="SettingsPage_WindowBackdropType_Message" xml:space="preserve">
     <value>The effect used for the background of the application window.</value>

@@ -1278,6 +1278,9 @@ En serio, ¡tenga cuidado con esta opción!</value>
   <data name="GodModeSettingsWindow_VantageWarning_Title" xml:space="preserve">
     <value>Los ajustes del modo personalizado no se aplicarán correctamente, si Lenovo Vantage o sus servicios se están ejecutando.</value>
   </data>
+  <data name="HardwareSensorsAutomationStepControl_Message" xml:space="preserve">
+    <value>Enable or disable background polling for hardware sensors.</value>
+  </data>
   <data name="HardwareSensorsAutomationStepControl_Title" xml:space="preserve">
     <value>Hardware Sensors</value>
   </data>
@@ -2891,7 +2894,7 @@ Se recomienda reiniciar después de cambiar esta opción.</value>
     <value>Utiliza el nuevo panel de control</value>
   </data>
   <data name="SettingsPage_WindowBackdropType_Info" xml:space="preserve">
-    <value>Si experimenta artefactos visuales en los Snackbars en modo HDR o ACM, establezca esto en "ninguno".</value>
+    <value>If you experience visual artifacts on Snackbar Notifications in HDR mode, set this to "None".</value>
   </data>
   <data name="SettingsPage_WindowBackdropType_Message" xml:space="preserve">
     <value>El efecto usado para el fondo de la ventana de la aplicación.</value>
