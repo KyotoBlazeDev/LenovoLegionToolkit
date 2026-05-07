@@ -2892,7 +2892,7 @@
     <value>Использовать новую панель мониторинга датчиков</value>
   </data>
   <data name="SettingsPage_WindowBackdropType_Info" xml:space="preserve">
-    <value>Если вы наблюдаете визуальные артефакты на всплывающих уведомлениях в режимах HDR или ACM, установите для этого параметра значение «Нет».</value>
+    <value>If you experience visual artifacts on Snackbar Notifications in HDR mode, set this to "None".</value>
   </data>
   <data name="SettingsPage_WindowBackdropType_Message" xml:space="preserve">
     <value>Определяет визуальный эффект, применяемый к фону окна приложения.</value>
