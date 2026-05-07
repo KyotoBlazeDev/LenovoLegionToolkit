@@ -2888,7 +2888,7 @@
     <value>Використовувати нову панель сенсорів</value>
   </data>
   <data name="SettingsPage_WindowBackdropType_Info" xml:space="preserve">
-    <value>Якщо у режимі HDR або ACM виникають візуальні артефакти, встановіть для цього параметра значення «Немає».</value>
+    <value>If you experience visual artifacts on Snackbar Notifications in HDR mode, set this to "None".</value>
   </data>
   <data name="SettingsPage_WindowBackdropType_Message" xml:space="preserve">
     <value>Ефект використовується для фону вікна програми.</value>
