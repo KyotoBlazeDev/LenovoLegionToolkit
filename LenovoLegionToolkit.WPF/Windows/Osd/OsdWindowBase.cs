@@ -27,6 +27,20 @@ namespace LenovoLegionToolkit.WPF.Windows.Osd;
 
 public abstract class OsdWindowBase : Window
 {
+    #region Win32 API
+
+    private const int GWL_EXSTYLE = -20;
+    private const uint WS_EX_TOOLWINDOW = 0x00000080;
+    private const uint WS_EX_NOACTIVATE = 0x08000000;
+
+    [DllImport("user32.dll")]
+    private static extern uint GetWindowLong(IntPtr hWnd, int nIndex);
+
+    [DllImport("user32.dll")]
+    private static extern uint SetWindowLong(IntPtr hWnd, int nIndex, uint dwNewLong);
+
+    #endregion
+
     #region Threshold Constants
 
     protected int _uiUpdateThrottleMs = 0;
@@ -132,8 +146,22 @@ public abstract class OsdWindowBase : Window
 
     #region Window Events
 
+    private void ApplyToolWindowStyle()
+    {
+        if (!IsLoaded) return;
+        var handle = new WindowInteropHelper(this).Handle;
+        if (handle == IntPtr.Zero) return;
+
+        ShowInTaskbar = false;
+        var exStyle = GetWindowLong(handle, GWL_EXSTYLE);
+        exStyle |= WS_EX_TOOLWINDOW;
+        exStyle |= WS_EX_NOACTIVATE;
+        SetWindowLong(handle, GWL_EXSTYLE, exStyle);
+    }
+
     private void OnSourceInitialized(object? sender, EventArgs e)
     {
+        ApplyToolWindowStyle();
         this.SetClickThrough(_OsdSettings.Store.IsLocked);
     }
 
@@ -268,6 +296,7 @@ public abstract class OsdWindowBase : Window
             {
                 SetDefaultWindowPosition();
             }
+            ApplyToolWindowStyle();
         });
     }
 
@@ -275,6 +304,8 @@ public abstract class OsdWindowBase : Window
     {
         if (IsVisible)
         {
+            ApplyToolWindowStyle();
+
             _sensorsGroupControllers.ShowAverageCpuFrequency = _hardwareSensorSettings.Store.ShowCpuAverageFrequency;
 
             _cts?.Cancel();
@@ -332,6 +363,8 @@ public abstract class OsdWindowBase : Window
         {
             SetDefaultWindowPosition();
         }
+
+        ApplyToolWindowStyle();
     }
 
     protected void ApplyCornerRadius(Border border)
