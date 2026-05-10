@@ -154,7 +154,7 @@
     <value>延迟开启</value>
   </data>
   <data name="Balanced" xml:space="preserve">
-    <value>Balanced</value>
+    <value>均衡模式</value>
   </data>
   <data name="BatteryNightChargeState_Off" xml:space="preserve">
     <value>关</value>
@@ -172,10 +172,10 @@
     <value>快充</value>
   </data>
   <data name="BestPerformance" xml:space="preserve">
-    <value>Best Performance</value>
+    <value>最佳性能</value>
   </data>
   <data name="BestPowerEfficiency" xml:space="preserve">
-    <value>Best Power Efficiency</value>
+    <value>最佳能效</value>
   </data>
   <data name="CustomFanCurveControl_Fan_CPU" xml:space="preserve">
     <value>CPU 风扇</value>
@@ -265,10 +265,10 @@
     <value>极客模式</value>
   </data>
   <data name="HardwareSensorsState_Off" xml:space="preserve">
-    <value>Off</value>
+    <value>关闭</value>
   </data>
   <data name="HardwareSensorsState_On" xml:space="preserve">
-    <value>On</value>
+    <value>开启</value>
   </data>
   <data name="MicrophoneState_Off" xml:space="preserve">
     <value>关</value>
