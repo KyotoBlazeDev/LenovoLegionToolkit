@@ -1286,10 +1286,10 @@
     <value>自定义设置在 Lenovo Vantage 及其服务运行时将不会生效。</value>
   </data>
   <data name="HardwareSensorsAutomationStepControl_Message" xml:space="preserve">
-    <value>Enable or disable background polling for hardware sensors.</value>
+    <value>启用或禁用硬件传感器后台轮询。</value>
   </data>
   <data name="HardwareSensorsAutomationStepControl_Title" xml:space="preserve">
-    <value>Hardware Sensors</value>
+    <value>硬件传感器</value>
   </data>
   <data name="HDRAutomationStepControl_Message" xml:space="preserve">
     <value>为内置屏幕启用高动态范围显示（HDR）。
@@ -2902,7 +2902,7 @@
     <value>使用新的状态面板</value>
   </data>
   <data name="SettingsPage_WindowBackdropType_Info" xml:space="preserve">
-    <value>If you experience visual artifacts on Snackbar Notifications in HDR mode, set this to "None".</value>
+    <value>如果在 HDR 或自动颜色管理开启时在提示窗口上遇到视觉伪影，请将其设置为无。</value>
   </data>
   <data name="SettingsPage_WindowBackdropType_Message" xml:space="preserve">
     <value>用于应用程序窗口背景的效果。</value>
@@ -3246,13 +3246,13 @@
     <value>默认</value>
   </data>
   <data name="WindowsPowerPlansWindow_PowerMode_AC" xml:space="preserve">
-    <value>AC</value>
+    <value>使用电源</value>
   </data>
   <data name="WindowsPowerPlansWindow_PowerMode_DC" xml:space="preserve">
-    <value>DC</value>
+    <value>使用电池</value>
   </data>
   <data name="WindowsPowerPlansWindow_PowerMode_Title" xml:space="preserve">
-    <value>Power Mode</value>
+    <value>电源模式</value>
   </data>
   <data name="WindowsPowerPlansWindow_Title" xml:space="preserve">
     <value>Windows 电源计划</value>
