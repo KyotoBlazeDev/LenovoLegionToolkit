@@ -31,7 +31,7 @@ public partial class ChargeThresholdControl
         _rangeSlider.Visibility = Visibility.Visible;
         _toggle.Visibility = Visibility.Visible;
 
-        UpdateLabels(state.Start, state.Stop);
+        UpdateLabels(_rangeSlider.Start, _rangeSlider.Stop);
         UpdateWarning(state);
     }
 

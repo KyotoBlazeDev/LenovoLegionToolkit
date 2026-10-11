@@ -31,7 +31,7 @@ public class RangeSlider : Control
         nameof(Start), typeof(int), typeof(RangeSlider), new FrameworkPropertyMetadata(DefaultMinimum, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnValuePropertyChanged, CoerceStart));
 
     public static readonly DependencyProperty StopProperty = DependencyProperty.Register(
-        nameof(Stop), typeof(int), typeof(RangeSlider), new FrameworkPropertyMetadata(DefaultMinimum + DefaultMinimumDelta, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnValuePropertyChanged, CoerceStop));
+        nameof(Stop), typeof(int), typeof(RangeSlider), new FrameworkPropertyMetadata(DefaultMaximum, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnValuePropertyChanged, CoerceStop));
 
     public static readonly DependencyProperty StartNameProperty = DependencyProperty.Register(
         nameof(StartName), typeof(string), typeof(RangeSlider), new PropertyMetadata(string.Empty, OnNamePropertyChanged));
